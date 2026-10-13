@@ -1,0 +1,34 @@
+[
+  {
+    "default": true,
+    "enabled": true,
+    "id": "0e700000-0000-4000-8000-000000000001",
+    "management": "GATEWAY",
+    "name": "Default",
+    "vlanId": 1
+  },
+  {
+    "default": false,
+    "enabled": true,
+    "id": "0e700000-0000-4000-8000-000000000010",
+    "management": "GATEWAY",
+    "name": "Staff",
+    "vlanId": 10
+  },
+  {
+    "default": false,
+    "enabled": true,
+    "id": "0e700000-0000-4000-8000-000000000020",
+    "management": "GATEWAY",
+    "name": "Voice",
+    "vlanId": 20
+  },
+  {
+    "default": false,
+    "enabled": true,
+    "id": "0e700000-0000-4000-8000-000000000030",
+    "management": "GATEWAY",
+    "name": "Guest",
+    "vlanId": 30
+  }
+]

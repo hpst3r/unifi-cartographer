@@ -1,0 +1,1623 @@
+{
+  "data": [
+    {
+      "_id": "66d000000000000000000001",
+      "adopted": true,
+      "ip": "10.1.0.1",
+      "mac": "02:00:00:01:00:01",
+      "model": "UDMPRO",
+      "name": "br-udm-pro",
+      "port_table": [
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 1",
+          "port_idx": 1,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 2",
+          "port_idx": 2,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 3",
+          "port_idx": 3,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 4",
+          "port_idx": 4,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 5",
+          "port_idx": 5,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 6",
+          "port_idx": 6,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 7",
+          "port_idx": 7,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 8",
+          "port_idx": 8,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 9",
+          "port_idx": 9,
+          "speed": 1000,
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 10",
+          "port_idx": 10,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 11",
+          "port_idx": 11,
+          "sfp_found": true,
+          "sfp_part": "UACC-DAC-SFP10-1M",
+          "sfp_serial": "X11",
+          "sfp_vendor": "Ubiquiti Inc.",
+          "speed": 10000,
+          "up": true
+        }
+      ],
+      "state": 1,
+      "type": "udm",
+      "uplink": {
+        "port_idx": 9,
+        "speed": 1000,
+        "type": "wire",
+        "up": true
+      },
+      "version": "7.1.66.15000"
+    },
+    {
+      "_id": "66d000000000000000000002",
+      "adopted": true,
+      "ip": "10.1.0.2",
+      "lldp_table": [
+        {
+          "chassis_id": "02:00:00:01:00:03",
+          "is_wired": true,
+          "local_port_idx": 1,
+          "port_id": "Port 49"
+        },
+        {
+          "chassis_id": "02:00:00:01:00:03",
+          "is_wired": true,
+          "local_port_idx": 2,
+          "port_id": "Port 50"
+        },
+        {
+          "chassis_id": "02:00:00:01:00:04",
+          "is_wired": true,
+          "local_port_idx": 3,
+          "port_id": "Port 49"
+        },
+        {
+          "chassis_id": "02:00:00:01:00:01",
+          "is_wired": true,
+          "local_port_idx": 8,
+          "port_id": "Port 11"
+        }
+      ],
+      "mac": "02:00:00:01:00:02",
+      "model": "USAGGPRO",
+      "name": "br-usw-agg-a",
+      "port_table": [
+        {
+          "aggregated_by": false,
+          "enable": true,
+          "is_uplink": false,
+          "lag_member": true,
+          "media": "SFP+",
+          "name": "Port 1",
+          "port_idx": 1,
+          "sfp_found": true,
+          "sfp_part": "UACC-DAC-SFP10-1M",
+          "sfp_serial": "X101",
+          "sfp_vendor": "Ubiquiti Inc.",
+          "speed": 10000,
+          "up": true
+        },
+        {
+          "aggregated_by": 1,
+          "enable": true,
+          "is_uplink": false,
+          "lag_member": true,
+          "media": "SFP+",
+          "name": "Port 2",
+          "port_idx": 2,
+          "sfp_found": true,
+          "sfp_part": "UACC-DAC-SFP10-1M",
+          "sfp_serial": "X102",
+          "sfp_vendor": "Ubiquiti Inc.",
+          "speed": 10000,
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 3",
+          "port_idx": 3,
+          "sfp_found": true,
+          "sfp_part": "UACC-DAC-SFP10-1M",
+          "sfp_serial": "X103",
+          "sfp_vendor": "Ubiquiti Inc.",
+          "speed": 10000,
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 4",
+          "port_idx": 4,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 5",
+          "port_idx": 5,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 6",
+          "port_idx": 6,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 7",
+          "port_idx": 7,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": true,
+          "media": "SFP+",
+          "name": "Port 8",
+          "port_idx": 8,
+          "sfp_found": true,
+          "sfp_part": "UACC-DAC-SFP10-1M",
+          "sfp_serial": "X108",
+          "sfp_vendor": "Ubiquiti Inc.",
+          "speed": 10000,
+          "up": true
+        }
+      ],
+      "state": 1,
+      "type": "usw",
+      "uplink": {
+        "port_idx": 8,
+        "speed": 10000,
+        "type": "wire",
+        "uplink_mac": "02:00:00:01:00:01",
+        "uplink_remote_port": 11
+      },
+      "version": "7.1.66.15000"
+    },
+    {
+      "_id": "66d000000000000000000003",
+      "adopted": true,
+      "ip": "10.1.0.3",
+      "lldp_table": [
+        {
+          "chassis_id": "02:00:00:01:00:02",
+          "is_wired": true,
+          "local_port_idx": 49,
+          "port_id": "Port 1"
+        },
+        {
+          "chassis_id": "02:00:00:01:00:02",
+          "is_wired": true,
+          "local_port_idx": 50,
+          "port_id": "Port 2"
+        },
+        {
+          "chassis_id": "02:00:00:01:00:05",
+          "is_wired": true,
+          "local_port_idx": 5,
+          "port_id": "eth0"
+        }
+      ],
+      "mac": "02:00:00:01:00:03",
+      "model": "US48PRO",
+      "name": "br-usw-acc-1",
+      "port_table": [
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 1",
+          "poe_enable": true,
+          "port_idx": 1,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 2",
+          "poe_enable": true,
+          "port_idx": 2,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 3",
+          "poe_enable": true,
+          "port_idx": 3,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 4",
+          "poe_enable": true,
+          "port_idx": 4,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "ap-1",
+          "poe_enable": true,
+          "port_idx": 5,
+          "port_poe": true,
+          "portconf_id": "65a000000000000000000001",
+          "speed": 2500,
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 6",
+          "poe_enable": true,
+          "port_idx": 6,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "staff-only",
+          "native_networkconf_id": "64f000000000000000000010",
+          "poe_enable": true,
+          "port_idx": 7,
+          "port_poe": true,
+          "speed": 1000,
+          "tagged_vlan_mgmt": "block_all",
+          "up": true
+        },
+        {
+          "enable": true,
+          "excluded_networkconf_ids": [
+            "64f000000000000000000030"
+          ],
+          "is_uplink": false,
+          "media": "GE",
+          "name": "no-guest",
+          "native_networkconf_id": "64f000000000000000000001",
+          "poe_enable": true,
+          "port_idx": 8,
+          "port_poe": true,
+          "speed": 1000,
+          "tagged_vlan_mgmt": "custom",
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 9",
+          "poe_enable": true,
+          "port_idx": 9,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 10",
+          "poe_enable": true,
+          "port_idx": 10,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 11",
+          "poe_enable": true,
+          "port_idx": 11,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 12",
+          "poe_enable": true,
+          "port_idx": 12,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 13",
+          "poe_enable": true,
+          "port_idx": 13,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 14",
+          "poe_enable": true,
+          "port_idx": 14,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 15",
+          "poe_enable": true,
+          "port_idx": 15,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 16",
+          "poe_enable": true,
+          "port_idx": 16,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 17",
+          "poe_enable": true,
+          "port_idx": 17,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 18",
+          "poe_enable": true,
+          "port_idx": 18,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 19",
+          "poe_enable": true,
+          "port_idx": 19,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 20",
+          "poe_enable": true,
+          "port_idx": 20,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 21",
+          "poe_enable": true,
+          "port_idx": 21,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 22",
+          "poe_enable": true,
+          "port_idx": 22,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 23",
+          "poe_enable": true,
+          "port_idx": 23,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 24",
+          "poe_enable": true,
+          "port_idx": 24,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 25",
+          "poe_enable": true,
+          "port_idx": 25,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 26",
+          "poe_enable": true,
+          "port_idx": 26,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 27",
+          "poe_enable": true,
+          "port_idx": 27,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 28",
+          "poe_enable": true,
+          "port_idx": 28,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 29",
+          "poe_enable": true,
+          "port_idx": 29,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 30",
+          "poe_enable": true,
+          "port_idx": 30,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 31",
+          "poe_enable": true,
+          "port_idx": 31,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 32",
+          "poe_enable": true,
+          "port_idx": 32,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 33",
+          "poe_enable": true,
+          "port_idx": 33,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 34",
+          "poe_enable": true,
+          "port_idx": 34,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 35",
+          "poe_enable": true,
+          "port_idx": 35,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 36",
+          "poe_enable": true,
+          "port_idx": 36,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 37",
+          "poe_enable": true,
+          "port_idx": 37,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 38",
+          "poe_enable": true,
+          "port_idx": 38,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 39",
+          "poe_enable": true,
+          "port_idx": 39,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 40",
+          "poe_enable": true,
+          "port_idx": 40,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 41",
+          "poe_enable": true,
+          "port_idx": 41,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 42",
+          "poe_enable": true,
+          "port_idx": 42,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 43",
+          "poe_enable": true,
+          "port_idx": 43,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 44",
+          "poe_enable": true,
+          "port_idx": 44,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 45",
+          "poe_enable": true,
+          "port_idx": 45,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 46",
+          "poe_enable": true,
+          "port_idx": 46,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 47",
+          "poe_enable": true,
+          "port_idx": 47,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 48",
+          "poe_enable": true,
+          "port_idx": 48,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "aggregated_by": false,
+          "enable": true,
+          "is_uplink": true,
+          "lag_member": true,
+          "media": "SFP+",
+          "name": "Port 49",
+          "port_idx": 49,
+          "sfp_found": true,
+          "sfp_part": "UACC-DAC-SFP10-1M",
+          "sfp_serial": "X49",
+          "sfp_vendor": "Ubiquiti Inc.",
+          "speed": 10000,
+          "up": true
+        },
+        {
+          "aggregated_by": 49,
+          "enable": true,
+          "is_uplink": false,
+          "lag_member": true,
+          "media": "SFP+",
+          "name": "Port 50",
+          "port_idx": 50,
+          "sfp_found": true,
+          "sfp_part": "UACC-DAC-SFP10-1M",
+          "sfp_serial": "X50",
+          "sfp_vendor": "Ubiquiti Inc.",
+          "speed": 10000,
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 51",
+          "port_idx": 51,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 52",
+          "port_idx": 52,
+          "speed": 0,
+          "up": false
+        }
+      ],
+      "state": 1,
+      "type": "usw",
+      "uplink": {
+        "port_idx": 49,
+        "speed": 20000,
+        "type": "wire",
+        "uplink_mac": "02:00:00:01:00:02",
+        "uplink_remote_port": 1
+      },
+      "version": "7.1.66.15000"
+    },
+    {
+      "_id": "66d000000000000000000004",
+      "adopted": true,
+      "ip": "10.1.0.4",
+      "lldp_table": [
+        {
+          "chassis_id": "02:00:00:01:00:02",
+          "is_wired": true,
+          "local_port_idx": 49,
+          "port_id": "Port 3"
+        },
+        {
+          "chassis_id": "02:00:00:01:99:01",
+          "is_wired": true,
+          "local_port_idx": 10,
+          "port_id": "eno1"
+        }
+      ],
+      "mac": "02:00:00:01:00:04",
+      "model": "US48PRO",
+      "name": "br-usw-acc-2",
+      "port_table": [
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 1",
+          "poe_enable": true,
+          "port_idx": 1,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 2",
+          "poe_enable": true,
+          "port_idx": 2,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 3",
+          "poe_enable": true,
+          "port_idx": 3,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 4",
+          "poe_enable": true,
+          "port_idx": 4,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 5",
+          "poe_enable": true,
+          "port_idx": 5,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 6",
+          "poe_enable": true,
+          "port_idx": 6,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 7",
+          "poe_enable": true,
+          "port_idx": 7,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 8",
+          "poe_enable": true,
+          "port_idx": 8,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 9",
+          "poe_enable": true,
+          "port_idx": 9,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "server",
+          "poe_enable": true,
+          "port_idx": 10,
+          "port_poe": true,
+          "speed": 1000,
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 11",
+          "poe_enable": true,
+          "port_idx": 11,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "lab",
+          "poe_enable": true,
+          "port_idx": 12,
+          "port_poe": true,
+          "speed": 1000,
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 13",
+          "poe_enable": true,
+          "port_idx": 13,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 14",
+          "poe_enable": true,
+          "port_idx": 14,
+          "port_poe": true,
+          "speed": 1000,
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 15",
+          "poe_enable": true,
+          "port_idx": 15,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 16",
+          "poe_enable": true,
+          "port_idx": 16,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 17",
+          "poe_enable": true,
+          "port_idx": 17,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 18",
+          "poe_enable": true,
+          "port_idx": 18,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 19",
+          "poe_enable": true,
+          "port_idx": 19,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 20",
+          "poe_enable": true,
+          "port_idx": 20,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 21",
+          "poe_enable": true,
+          "port_idx": 21,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 22",
+          "poe_enable": true,
+          "port_idx": 22,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 23",
+          "poe_enable": true,
+          "port_idx": 23,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 24",
+          "poe_enable": true,
+          "port_idx": 24,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 25",
+          "poe_enable": true,
+          "port_idx": 25,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 26",
+          "poe_enable": true,
+          "port_idx": 26,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 27",
+          "poe_enable": true,
+          "port_idx": 27,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 28",
+          "poe_enable": true,
+          "port_idx": 28,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 29",
+          "poe_enable": true,
+          "port_idx": 29,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 30",
+          "poe_enable": true,
+          "port_idx": 30,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 31",
+          "poe_enable": true,
+          "port_idx": 31,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 32",
+          "poe_enable": true,
+          "port_idx": 32,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 33",
+          "poe_enable": true,
+          "port_idx": 33,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 34",
+          "poe_enable": true,
+          "port_idx": 34,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 35",
+          "poe_enable": true,
+          "port_idx": 35,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 36",
+          "poe_enable": true,
+          "port_idx": 36,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 37",
+          "poe_enable": true,
+          "port_idx": 37,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 38",
+          "poe_enable": true,
+          "port_idx": 38,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 39",
+          "poe_enable": true,
+          "port_idx": 39,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 40",
+          "poe_enable": true,
+          "port_idx": 40,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 41",
+          "poe_enable": true,
+          "port_idx": 41,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 42",
+          "poe_enable": true,
+          "port_idx": 42,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 43",
+          "poe_enable": true,
+          "port_idx": 43,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 44",
+          "poe_enable": true,
+          "port_idx": 44,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 45",
+          "poe_enable": true,
+          "port_idx": 45,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 46",
+          "poe_enable": true,
+          "port_idx": 46,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 47",
+          "poe_enable": true,
+          "port_idx": 47,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 48",
+          "poe_enable": true,
+          "port_idx": 48,
+          "port_poe": true,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": true,
+          "media": "SFP+",
+          "name": "Port 49",
+          "port_idx": 49,
+          "sfp_found": true,
+          "sfp_part": "UACC-DAC-SFP10-1M",
+          "sfp_serial": "X49",
+          "sfp_vendor": "Ubiquiti Inc.",
+          "speed": 10000,
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 50",
+          "port_idx": 50,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 51",
+          "port_idx": 51,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "SFP+",
+          "name": "Port 52",
+          "port_idx": 52,
+          "speed": 0,
+          "up": false
+        }
+      ],
+      "state": 1,
+      "type": "usw",
+      "uplink": {
+        "port_idx": 49,
+        "speed": 10000,
+        "type": "wire",
+        "uplink_mac": "02:00:00:01:00:02",
+        "uplink_remote_port": 3
+      },
+      "version": "7.1.66.15000"
+    },
+    {
+      "_id": "66d000000000000000000005",
+      "adopted": true,
+      "ip": "10.1.0.5",
+      "lldp_table": [
+        {
+          "chassis_id": "02:00:00:01:00:03",
+          "is_wired": true,
+          "local_port_idx": 1,
+          "port_id": "Port 5"
+        }
+      ],
+      "mac": "02:00:00:01:00:05",
+      "model": "UAP6MP",
+      "name": "br-uap-1",
+      "port_table": [
+        {
+          "enable": true,
+          "is_uplink": true,
+          "media": "GE",
+          "name": "Port 1",
+          "port_idx": 1,
+          "speed": 2500,
+          "up": true
+        }
+      ],
+      "state": 1,
+      "type": "uap",
+      "uplink": {
+        "port_idx": 1,
+        "speed": 2500,
+        "type": "wire",
+        "uplink_mac": "02:00:00:01:00:03",
+        "uplink_remote_port": 5
+      },
+      "version": "7.1.66.15000"
+    },
+    {
+      "_id": "66d000000000000000000006",
+      "adopted": true,
+      "ip": "10.1.0.6",
+      "mac": "02:00:00:01:00:06",
+      "model": "UAP6MP",
+      "name": "br-uap-2",
+      "port_table": [
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 1",
+          "port_idx": 1,
+          "speed": 0,
+          "up": false
+        }
+      ],
+      "state": 1,
+      "type": "uap",
+      "uplink": {
+        "speed": 866,
+        "type": "wireless",
+        "uplink_mac": "02:00:00:01:00:05",
+        "uplink_remote_port": 0
+      },
+      "version": "7.1.66.15000"
+    },
+    {
+      "_id": "66d000000000000000000007",
+      "adopted": true,
+      "ip": "10.1.0.7",
+      "mac": "02:00:00:01:00:07",
+      "model": "USMINI",
+      "name": "br-usw-lab",
+      "port_table": [
+        {
+          "enable": true,
+          "is_uplink": true,
+          "media": "GE",
+          "name": "Port 1",
+          "port_idx": 1,
+          "speed": 1000,
+          "up": true
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 2",
+          "port_idx": 2,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 3",
+          "port_idx": 3,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 4",
+          "port_idx": 4,
+          "speed": 0,
+          "up": false
+        },
+        {
+          "enable": true,
+          "is_uplink": false,
+          "media": "GE",
+          "name": "Port 5",
+          "port_idx": 5,
+          "speed": 0,
+          "up": false
+        }
+      ],
+      "state": 1,
+      "type": "usw",
+      "uplink": {
+        "port_idx": 1,
+        "speed": 1000,
+        "type": "wire",
+        "uplink_mac": "02:00:00:01:00:04",
+        "uplink_remote_port": 12
+      },
+      "version": "7.1.66.15000"
+    }
+  ],
+  "meta": {
+    "rc": "ok"
+  }
+}

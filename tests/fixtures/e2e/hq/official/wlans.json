@@ -1,0 +1,33 @@
+[
+  {
+    "broadcastingFrequenciesGHz": [
+      2.4,
+      5
+    ],
+    "enabled": true,
+    "id": "3f100000-0000-4000-8000-000000000001",
+    "name": "hq-corp-wlan",
+    "network": {
+      "networkId": "0e700000-0000-4000-8000-000000000010",
+      "type": "SPECIFIC"
+    },
+    "securityConfiguration": {
+      "type": "WPA2_PERSONAL"
+    }
+  },
+  {
+    "broadcastingFrequenciesGHz": [
+      5
+    ],
+    "enabled": true,
+    "id": "3f100000-0000-4000-8000-000000000002",
+    "name": "hq-guest-wlan",
+    "network": {
+      "networkId": "0e700000-0000-4000-8000-000000000030",
+      "type": "SPECIFIC"
+    },
+    "securityConfiguration": {
+      "type": "OPEN"
+    }
+  }
+]
