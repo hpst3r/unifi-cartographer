@@ -9,6 +9,7 @@ object that no other code can obtain through the public API.
 from __future__ import annotations
 
 import hashlib
+import json
 import logging
 import socket
 import ssl
@@ -22,8 +23,9 @@ from urllib.parse import urlsplit
 import httpx
 
 from unifi_carto import __version__
-from unifi_carto.config import TlsConfig
+from unifi_carto.config import TlsConfig, ca_context
 from unifi_carto.errors import (
+    LEGACY_AUTH_MESSAGES,
     ApiError,
     AuthRefused,
     ConfigError,
@@ -41,7 +43,18 @@ _BACKOFF: Final = (0.5, 1.0, 2.0)
 _RETRY_AFTER_CAP: Final = 60.0
 _RETRY_STATUSES: Final = frozenset({502, 503, 504})
 _MFA_MARKERS: Final = ("ubic2fatokenrequired", "mfa", "2fa")
-_LEGACY_AUTH_MSGS: Final = frozenset({"api.err.NoPermission", "api.err.LoginRequired", "api.err.Unauthorized"})
+_MAX_PAGES: Final = 1000
+# httpcore logs raw response headers (Set-Cookie, X-CSRF-Token) at DEBUG and httpx full URLs at INFO.
+THIRD_PARTY_LOGGERS: Final = ("httpx", "httpcore", "hpack", "urllib3")
+
+
+def pin_third_party_loggers() -> None:
+    """Keep the HTTP stack's loggers at WARNING so debug logging never carries headers or cookies."""
+    for name in THIRD_PARTY_LOGGERS:
+        logging.getLogger(name).setLevel(logging.WARNING)
+
+
+pin_third_party_loggers()
 
 
 class _LoginCapability:
@@ -106,28 +119,37 @@ class ReadOnlyClient:
     def get_paginated(self, path: str, params: Params | None = None, *, limit: int = 200) -> list[dict[str, Any]]:
         items: list[dict[str, Any]] = []
         offset = 0
-        prev_first: object = None
-        while True:
+        seen = 0
+        dropped = 0
+        prev_digest: str | None = None
+        for _ in range(_MAX_PAGES):
             page = self.get_json(path, {**(params or {}), "offset": offset, "limit": limit})
             if not isinstance(page, dict) or not isinstance(page.get("data"), list):
                 raise ApiError(f"GET {path}: expected a paginated object with 'data'", status=200, url=path)
-            data: list[dict[str, Any]] = page["data"]
+            data: list[Any] = page["data"]
             if not data:
                 break
-            first = data[0].get("id") if isinstance(data[0], dict) else None
-            if offset and first is not None and first == prev_first:
+            digest = _page_digest(data)
+            if digest == prev_digest:
                 raise ApiError(
                     f"GET {path}: server ignored offset={offset} (page repeats the previous one)", status=200, url=path
                 )
-            prev_first = first
-            items.extend(data)
+            prev_digest = digest
+            objects = [item for item in data if isinstance(item, dict)]
+            dropped += len(data) - len(objects)
+            items.extend(objects)
+            seen += len(data)
             offset += len(data)
             total = page.get("totalCount")
             if isinstance(total, int):
-                if len(items) >= total:
+                if seen >= total:
                     break
             elif len(data) < limit:
                 break
+        else:
+            raise ApiError(f"GET {path}: more than {_MAX_PAGES} pages", status=200, url=path)
+        if dropped:
+            log.debug("GET %s: dropped %d non-object item(s)", path, dropped)
         return items
 
     def login_legacy(self, username: str, password: str) -> None:
@@ -169,12 +191,21 @@ class ReadOnlyClient:
         capability: object = None,
     ) -> Any:
         method = method.upper()
-        is_login = capability is _LOGIN_CAP and method == "POST" and urlsplit(url).path == _LOGIN_PATH
+        parts = urlsplit(url)
+        own = urlsplit(self.base_url)
+        is_login = (
+            capability is _LOGIN_CAP
+            and method == "POST"
+            and (parts.scheme, parts.netloc) == (own.scheme, own.netloc)
+            and parts.path == _LOGIN_PATH
+        )
         if method not in _READ_METHODS and not is_login:
             raise ReadOnlyViolation(f"refusing {method} request: this client is read-only")
         if json_body is not None and not is_login:
             raise ReadOnlyViolation("refusing request body: this client is read-only")
-        path = urlsplit(url).path
+        path = parts.path
+        # The login is sent exactly once: never resend credentials after a 429/5xx or an ambiguous transport failure.
+        retries = 0 if is_login else self.max_retries
         attempt = 0
         while True:
             try:
@@ -182,7 +213,7 @@ class ReadOnlyClient:
             except httpx.TransportError as exc:
                 tls = _is_tls_error(exc)
                 log.debug("%s %s -> %s", method, path, "tls error" if tls else type(exc).__name__)
-                if not tls and attempt < min(self.max_retries, len(_BACKOFF)):
+                if not tls and attempt < min(retries, len(_BACKOFF)):
                     self.__sleep(_BACKOFF[attempt])
                     attempt += 1
                     continue
@@ -190,11 +221,11 @@ class ReadOnlyClient:
                 raise ApiError(f"{method} {path}: {what}", status=0, url=path) from None
             log.debug("%s %s -> %d", method, path, resp.status_code)
             status = resp.status_code
-            if status == 429 and attempt < self.max_retries:
+            if status == 429 and attempt < retries:
                 self.__sleep(_retry_after(resp.headers.get("Retry-After"), attempt))
                 attempt += 1
                 continue
-            if status in _RETRY_STATUSES and attempt < min(self.max_retries, len(_BACKOFF)):
+            if status in _RETRY_STATUSES and attempt < min(retries, len(_BACKOFF)):
                 self.__sleep(_BACKOFF[attempt])
                 attempt += 1
                 continue
@@ -236,9 +267,13 @@ def _decode(method: str, path: str, resp: httpx.Response) -> Any:
     meta = body.get("meta") if isinstance(body, dict) else None
     if isinstance(meta, dict) and "rc" in meta and meta["rc"] != "ok":
         msg = str(meta.get("msg") or meta["rc"])
-        cls = AuthRefused if msg in _LEGACY_AUTH_MSGS else ApiError
+        cls = AuthRefused if msg in LEGACY_AUTH_MESSAGES else ApiError
         raise cls(f"{where}: legacy API error {msg}", status=status, url=path)
     return body
+
+
+def _page_digest(data: list[Any]) -> str:
+    return hashlib.sha256(json.dumps(data, sort_keys=True, default=str).encode()).hexdigest()
 
 
 def _error_detail(body: Any) -> str | None:
@@ -326,7 +361,7 @@ def build_ssl_context(tls: TlsConfig | None, host: str, port: int, *, timeout: f
     if tls is None or (not tls.fingerprint and not tls.ca_cert):
         return True
     if tls.ca_cert:
-        ctx = ssl.create_default_context(cafile=str(tls.ca_cert))
+        ctx = ca_context(tls.ca_cert)
         _relax_flags(ctx)
         return ctx
     assert tls.fingerprint is not None

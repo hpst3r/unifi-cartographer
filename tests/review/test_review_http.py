@@ -9,7 +9,6 @@ import httpx
 import pytest
 import respx
 
-from review.conftest import review_bug
 from unifi_carto.config import TlsConfig
 from unifi_carto.errors import ApiError, ConfigError
 from unifi_carto.http import ReadOnlyClient
@@ -32,7 +31,6 @@ class Runaway(Exception):
 
 @respx.mock
 def test_rob01_pagination_terminates_when_offset_ignored_and_items_have_no_id() -> None:
-    review_bug("ROB-01: get_paginated loops forever if the server ignores offset and items carry no 'id'")
     calls = 0
 
     def handler(request: httpx.Request) -> httpx.Response:
@@ -49,7 +47,6 @@ def test_rob01_pagination_terminates_when_offset_ignored_and_items_have_no_id() 
 
 @respx.mock
 def test_col04_non_object_list_items_do_not_crash_collect_site() -> None:
-    review_bug("COL-04: non-object items in 'data' pass get_paginated unfiltered and crash collect_site")
     dev = {"id": "6f1a0000-0000-4000-8000-000000000101", "macAddress": "02:00:00:00:01:01", "name": "usw-acc-1"}
     base = f"{BASE}/v1/sites/{SITE['id']}"
     respx.get(f"{BASE}/v1/info").respond(200, json={"applicationVersion": "10.6.106"})
@@ -61,7 +58,6 @@ def test_col04_non_object_list_items_do_not_crash_collect_site() -> None:
 
 
 def test_tls01_ca_cert_directory_is_a_config_error(tmp_path: Path) -> None:
-    review_bug("TLS-01: ca_cert pointing at a directory/unreadable file raises a raw OSError/SSLError, not ConfigError")
     with pytest.raises(ConfigError):
         ReadOnlyClient(BASE, api_key=KEY, tls=TlsConfig(ca_cert=tmp_path))
     with pytest.raises(ConfigError):
@@ -69,7 +65,6 @@ def test_tls01_ca_cert_directory_is_a_config_error(tmp_path: Path) -> None:
 
 
 def test_ro01_write_call_scanner_catches_obvious_spellings(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    review_bug("RO-01: test_no_write_calls_outside_http misses `.post (`, getattr spellings, urllib/http.client")
     spec = importlib.util.spec_from_file_location("review_scanner_under_test", ROOT / "tests" / "test_http.py")
     assert spec is not None and spec.loader is not None
     scanner = importlib.util.module_from_spec(spec)

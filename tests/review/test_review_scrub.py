@@ -94,16 +94,4 @@ def test_scr05_public_ipv4_mapping_is_injective() -> None:
     assert len(set(out)) == len(ips)
 
 
-def test_scr06_console_identity_in_capture_is_scrubbed() -> None:
-    review_bug("SCR-06: capture's console.json keeps the Site Manager host id and the local_url hostname")
-    console = {
-        "id": "9C05D6000000000007A3387E0000000063EC9853:1234567890",
-        "name": "hq",
-        "access": "local",
-        "local_url": "https://unifi.acme-hq.example",
-        "model": "UDM-Pro",
-        "firmware": "4.1.13",
-    }
-    out = dumped(console)
-    assert "7A3387E" not in out
-    assert "acme-hq" not in out
+# SCR-06 moved to test_review_capture.py: fixed in the capture command (Amendment 2.14), not in scrub.

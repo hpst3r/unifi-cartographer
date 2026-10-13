@@ -15,15 +15,12 @@ import logging
 from typing import Any, Literal
 from urllib.parse import quote
 
-from unifi_carto.errors import ApiError, AuthRefused, EndpointUnavailable
+from unifi_carto.errors import LEGACY_AUTH_MESSAGES, ApiError, AuthRefused, EndpointUnavailable
 from unifi_carto.model import CollectionWarning
 from unifi_carto.raw import JSON, LegacySnapshot
 from unifi_carto.transport import Transport
 
 log = logging.getLogger(__name__)
-
-# Legacy envelope messages that mean "not authorized" even when the HTTP status was 200.
-_AUTH_MESSAGES = frozenset({"api.err.LoginRequired", "api.err.NoPermission", "api.err.Invalid"})
 
 
 class LegacyEnvelopeError(ApiError):
@@ -121,7 +118,7 @@ def unwrap(body: Any, *, url: str = "") -> list[JSON]:
         meta = body.get("meta")
         if isinstance(meta, dict) and meta.get("rc", "ok") != "ok":
             msg = str(meta.get("msg", "unknown"))
-            if msg in _AUTH_MESSAGES:
+            if msg in LEGACY_AUTH_MESSAGES:
                 raise AuthRefused(f"legacy API refused: {msg}", status=401, url=url)
             raise LegacyEnvelopeError(f"legacy API error: {msg}", status=200, url=url)
         records = body.get("data", [])

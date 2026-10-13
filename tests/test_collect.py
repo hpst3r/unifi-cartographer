@@ -38,7 +38,7 @@ from fixtures.e2e.fakenet import (
 from unifi_carto.build import build_inventory
 from unifi_carto.collect import Result, collect
 from unifi_carto.config import load_config
-from unifi_carto.errors import AuthRefused, ConfigError
+from unifi_carto.errors import ConfigError
 
 Net = tuple[FakeNet, respx.MockRouter]
 
@@ -253,12 +253,28 @@ def test_official_refused_everywhere_collects_nothing(tmp_path: Path, net: Net) 
 
 
 def test_site_manager_key_refused(tmp_path: Path, net: Net, monkeypatch: pytest.MonkeyPatch) -> None:
+    # Amendment 2.3: a refused Site Manager key is a warning; configured local consoles are still collected.
+    fake, _ = net
+    fake.site_manager()
+    fake.official(HQ_HOST, "/proxy/network/integration", HQ_DIR, HQ_KEY)
+    fake.legacy(HQ_HOST, HQ_DIR, HQ_KEY)
+    monkeypatch.setenv("E2E_SM_KEY", "wrong-key")
+    result = run(tmp_path, SM_TOML + HQ_TOML)
+    assert result.exit_code == 1
+    assert [c.name for c in result.inventory.consoles] == ["hq"] and result.inventory.devices
+    assert codes(result)["site_manager_failed"] == [None]
+    assert "wrong-key" not in result.inventory.model_dump_json()
+
+
+def test_site_manager_refused_and_no_local_console_is_exit_3(
+    tmp_path: Path, net: Net, monkeypatch: pytest.MonkeyPatch
+) -> None:
     fake, _ = net
     fake.site_manager()
     monkeypatch.setenv("E2E_SM_KEY", "wrong-key")
-    with pytest.raises(AuthRefused) as info:
-        run(tmp_path, SM_TOML)
-    assert "wrong-key" not in str(info.value)
+    result = run(tmp_path, SM_TOML)
+    assert result.exit_code == 3
+    assert "site_manager_failed" in codes(result)
 
 
 # -- scenario 6: filters ---------------------------------------------------------------------------------

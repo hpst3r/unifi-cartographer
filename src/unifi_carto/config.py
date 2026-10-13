@@ -7,6 +7,7 @@ Secrets are referenced, never inlined: ``*_env`` names an environment variable,
 from __future__ import annotations
 
 import os
+import ssl
 import stat
 import tomllib
 from dataclasses import dataclass, field
@@ -51,6 +52,17 @@ class TlsConfig:
     def __post_init__(self) -> None:
         if self.fingerprint and self.ca_cert:
             raise ConfigError("tls_fingerprint and ca_cert are mutually exclusive")
+
+
+def ca_context(path: Path) -> ssl.SSLContext:
+    """An SSL context trusting only the PEM CA file ``path``. ConfigError if it is missing, not a file,
+    unreadable or not a certificate."""
+    if not path.is_file():
+        raise ConfigError(f"ca_cert {path} is missing or not a file")
+    try:
+        return ssl.create_default_context(cafile=str(path))
+    except OSError as exc:  # ssl.SSLError is an OSError
+        raise ConfigError(f"ca_cert {path} is unreadable or not a PEM certificate: {exc.strerror or exc}") from None
 
 
 @dataclass(frozen=True)
@@ -131,6 +143,11 @@ def load_config(path: Path | None) -> Config:
         if local_url is not None and (not isinstance(local_url, str) or not local_url.startswith("https://")):
             raise ConfigError(f"console {name}: local_url must be an https:// URL")
         ca = raw.get("ca_cert")
+        if isinstance(ca, str):
+            try:
+                ca_context(Path(ca).expanduser())
+            except ConfigError as exc:
+                raise ConfigError(f"console {name}: {exc}") from None
         consoles.append(
             ConsoleConfig(
                 name=name,

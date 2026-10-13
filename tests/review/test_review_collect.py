@@ -6,7 +6,6 @@ from typing import Any
 
 import pytest
 
-from review.conftest import review_bug
 from unifi_carto.collect import collect, plan_targets
 from unifi_carto.config import Config, ConsoleConfig, SecretRef, TlsConfig
 from unifi_carto.errors import ApiError, EndpointUnavailable, TlsPinMismatch
@@ -73,7 +72,6 @@ def _keys(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_col01_pin_mismatch_on_one_console_does_not_abort_run() -> None:
-    review_bug("COL-01: TlsPinMismatch (not an ApiError) from one console escapes collect() and aborts the whole run")
     cfg = Config(consoles=(local("a", "192.0.2.10"), local("b", "192.0.2.20")))
 
     def factory(
@@ -92,7 +90,6 @@ def test_col01_pin_mismatch_on_one_console_does_not_abort_run() -> None:
 
 
 def test_col02_legacy_connection_failure_keeps_official_data() -> None:
-    review_bug("COL-02: an ApiError while opening the legacy transport escapes collect(); official data is lost")
     cfg = Config(consoles=(local("a", "192.0.2.10"),))
 
     def factory(
@@ -108,7 +105,6 @@ def test_col02_legacy_connection_failure_keeps_official_data() -> None:
 
 
 def test_col03_ambiguous_site_manager_host_name_is_not_guessed() -> None:
-    review_bug("COL-03: two Site Manager hosts with the same name: a local console silently takes the last host's id")
     host_a = {"id": "HOSTA0000:1", "reportedState": {"name": "hq"}}
     host_b = {"id": "HOSTB0000:2", "reportedState": {"name": "hq"}}
     cfg = Config(site_manager_key=SecretRef(env="REVIEW_KEY_SM"), consoles=(local("hq", "192.0.2.10"),))

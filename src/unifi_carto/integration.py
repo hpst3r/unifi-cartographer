@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
+from urllib.parse import quote
 
 from unifi_carto.errors import ApiError, AuthRefused, EndpointUnavailable
 from unifi_carto.model import CollectionWarning
@@ -43,7 +44,7 @@ class Integration:
         A 404 on an optional endpoint becomes ``endpoint_unavailable``, other API errors ``endpoint_error``.
         """
         site_id = str(site["id"])
-        base = f"/v1/sites/{site_id}"
+        base = f"/v1/sites/{_seg(site_id)}"
         warnings: list[CollectionWarning] = []
 
         def warn(code: str, message: str) -> None:
@@ -69,7 +70,7 @@ class Integration:
 
         with ThreadPoolExecutor(max_workers=max(1, max_workers)) as pool:
             device_ids = [str(d["id"]) for d in devices if d.get("id")]
-            fetched = list(pool.map(lambda i: self._detail(f"{base}/devices/{i}"), device_ids))
+            fetched = list(pool.map(lambda i: self._detail(f"{base}/devices/{_seg(i)}"), device_ids))
             device_details: dict[str, JSON] = {}
             for dev_id, (detail, err) in zip(device_ids, fetched, strict=True):
                 if detail is not None:
@@ -126,7 +127,7 @@ class Integration:
     ) -> list[JSON]:
         """Replace list items by their detail objects where ``wanted``; keep the list item if detail fails."""
         targets = [i for i, item in enumerate(items) if item.get("id") and wanted(item)]
-        fetched = list(pool.map(lambda i: self._detail(f"{path}/{items[i]['id']}"), targets))
+        fetched = list(pool.map(lambda i: self._detail(f"{path}/{_seg(str(items[i]['id']))}"), targets))
         out = list(items)
         for i, (detail, err) in zip(targets, fetched, strict=True):
             if detail is not None:
@@ -134,6 +135,12 @@ class Integration:
             elif err is not None:
                 warn("endpoint_error", f"{what} {items[i]['id']} detail: {err}")
         return out
+
+
+def _seg(value: str) -> str:
+    """A server-supplied id as one URL path segment (``/``, ``?``, ``#``, ``..`` cannot redirect the request)."""
+    seg = quote(value, safe="")
+    return seg.replace(".", "%2E") if seg in (".", "..") else seg
 
 
 def _site_label(site: JSON) -> str | None:

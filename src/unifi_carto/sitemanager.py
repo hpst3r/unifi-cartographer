@@ -7,6 +7,7 @@ not the Integration API's offset/limit, so it is implemented here on top of ``ge
 from __future__ import annotations
 
 from typing import Any, Final
+from urllib.parse import quote
 
 from unifi_carto.errors import ApiError
 from unifi_carto.raw import ConsoleRef
@@ -20,7 +21,10 @@ _MAX_PAGES: Final = 1000
 
 def connector_base_url(host_id: str) -> str:
     """Integration API base for a console reached through the Site Manager connector."""
-    return f"{BASE_URL}/v1/connector/consoles/{host_id}/network/integration"
+    seg = quote(host_id, safe="")  # server-supplied: one path segment, never a traversal
+    if seg in (".", ".."):
+        seg = seg.replace(".", "%2E")
+    return f"{BASE_URL}/v1/connector/consoles/{seg}/network/integration"
 
 
 class SiteManager:
