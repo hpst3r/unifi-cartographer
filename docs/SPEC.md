@@ -112,4 +112,18 @@ Pages: **Logical** (devices by role tier: gateway / aggregation / access / AP, l
 
 ## Amendments
 
-(none yet)
+### Amendment 1 (wave 1 integration, 2026-10-13)
+
+Decisions on worker-reported contract issues:
+
+1. **Pagination:** request `limit=200`; servers may cap the page size (the v10.6.106 reference says typically 100). Follow `totalCount` and advance by `len(data)`.
+2. **Device list vs detail shapes:** in list items `features` and `interfaces` are string arrays and there is no `uplink`; in the detail they are objects (`features.{gateway,switching,accessPoint}`, `interfaces.{ports,radios}`) and `uplink: {deviceId}` is present. The builder reads the detail and falls back to the list item.
+3. **LAG sources:** official LAGs come from both the device detail (`features.switching.lags[] {id, portIdxs}`, scoped to that device) and `/switching/lags` (`members[] {deviceId, portIdxs}`); the member port list may be named `portIdxs` or `portIndexes`. MC-LAG domains map to `Lag(kind=multi_chassis)` with the peer-link ports as members; switch stacks map to `Lag(kind=switch_stack)` with members and empty `port_idxs`.
+4. **Legacy login** posts to `<scheme://host:port>/api/auth/login` (the URL origin), not `base_url + path`.
+5. **Tagged VLANs:** `tagged_vlan_mgmt=custom` = all network VLANs minus `excluded_networkconf_ids` minus the port's native VLAN.
+6. **IDs for legacy-only objects:** networks and WLANs `legacy:<_id>`; LAGs seen only in legacy `<device_id>:lag<master port idx>`.
+7. **`Console.legacy = "disabled"`** is set by `collect.py` after the build when `--no-legacy` is given.
+8. **Official-only AP-to-AP links** stay `kind=unknown`: an AP parent does not prove a wireless mesh uplink (in-wall APs have wired downstream ports).
+9. **Render page names:** canonical `inventory`; `rack-inventory` and `cable-schedule` are accepted aliases. No U-height map in v0.1.
+10. **Proxies:** the HTTP client ignores proxy environment variables (`trust_env=False`) so credentials never go to an unexpected proxy. Revisit if a user needs an HTTPS proxy for api.ui.com.
+11. **Discovered Site Manager hosts** that 404 on the Network integration path (e.g. Protect-only NVRs) produce `console_not_network` and do not make the run partial.

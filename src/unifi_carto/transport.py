@@ -28,7 +28,8 @@ class Transport(Protocol):
         ...
 
     def login_legacy(self, username: str, password: str) -> None:
-        """Legacy cookie login (POST /api/auth/login) on a UniFi OS console; the only allowed non-GET call.
+        """Legacy cookie login (POST <scheme://host:port>/api/auth/login, i.e. the URL origin) on a UniFi OS
+        console; the only allowed non-GET call.
 
         After success, subsequent get_json calls carry the session cookie instead of the API key.
         Raises AuthRefused on bad credentials or when 2FA is required.

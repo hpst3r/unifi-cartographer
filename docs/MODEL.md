@@ -6,7 +6,7 @@ Source of truth: `src/unifi_carto/model.py`; JSON Schema: `schema/inventory-v1.s
 
 - **Unknown is `null`, never a guess.** `native_vlan: null` means "not known", not "no native VLAN". Renderers must show unknowns (e.g. `?`).
 - **Provenance.** `sources` on devices, ports, networks, WLANs and clients lists every layer that contributed a field. A link has one `source`: the most specific layer that established it (`legacy` > `lldp` > `official` > `inferred`).
-- **IDs.** Device ids are official UUIDs when known, else `mac:<mac>`. MACs are lowercase colon form. Link ids are deterministic: `<a.device_id>:<a.port_idx|?>-<b.device_id or ext:<chassis_id>>:<b.port_idx|?>`.
+- **IDs.** Device ids are official UUIDs when known, else `mac:<mac>`. MACs are lowercase colon form. Legacy-only networks/WLANs use `legacy:<_id>`; legacy-only LAGs `<device_id>:lag<master idx>`. Link ids are deterministic: `<a.device_id>:<a.port_idx|?>-<b.device_id or ext:<chassis_id>>:<b.port_idx|?>`.
 - **Direction.** `Link.a` is the downstream end (the device whose uplink this is; for LLDP, the local switch port), `Link.b` the upstream end.
 
 ## Field mapping (official / legacy)
@@ -20,8 +20,8 @@ Source of truth: `src/unifi_carto/model.py`; JSON Schema: `schema/inventory-v1.s
 | Device.uplink_device_id | `uplink.deviceId` | `uplink.uplink_mac` -> device by MAC |
 | Port.idx / connector / speed / max / state / poe | `interfaces.ports[]`: `idx`, `connector`, `speedMbps`, `maxSpeedMbps`, `state`, `poe` | `port_table[]`: `port_idx`, `media`, `speed`, `up`, `poe_*` |
 | Port.name / enabled / sfp / is_uplink | - | `name`, `enable`, `sfp_vendor`/`sfp_part`/`sfp_serial`, `is_uplink` |
-| Port.profile / native_vlan / tagged_vlans | - | `portconf_id` -> `rest/portconf.name`; `native_networkconf_id` -> `networkconf.vlan`; `tagged_vlan_mgmt` (`auto` = all, `block_all` = [], `custom` = all minus `excluded_networkconf_ids`) |
-| Port.lag_id | `switching/lags` members `{deviceId, portIdxs}` | `aggregated_by` / `lag_member` |
+| Port.profile / native_vlan / tagged_vlans | - | `portconf_id` -> `rest/portconf.name`; `native_networkconf_id` -> `networkconf.vlan`; `tagged_vlan_mgmt` (`auto` = all, `block_all` = [], `custom` = all minus `excluded_networkconf_ids` minus the native VLAN) |
+| Port.lag_id | device detail `features.switching.lags[] {id, portIdxs}`; `switching/lags` members `{deviceId, portIdxs\|portIndexes}` | `aggregated_by` / `lag_member` |
 | Link (uplink) | parent only: `uplink.deviceId` | `uplink.port_idx` (a), `uplink.uplink_mac` + `uplink.uplink_remote_port` (b), `uplink.type` (`wire` / `wireless`), `uplink.speed` |
 | Link (LLDP) | - | `lldp_table[]`: `local_port_idx`, `chassis_id`, `port_id`, `is_wired` |
 | Network | `networks[]`: `id`, `name`, `vlanId`, `enabled`, `management` | `networkconf`: `purpose`, `vlan`, `ip_subnet`, `dhcpd_enabled` |
