@@ -23,7 +23,6 @@ RADIUS_SECRET = "review-radius-secret-3c4d"  # synthetic
 
 
 def test_sec01_debug_log_has_no_session_cookie_or_csrf(local_tls: LocalTls, caplog: pytest.LogCaptureFixture) -> None:
-    review_bug("SEC-01: --debug logging lets httpcore log raw response headers (Set-Cookie TOKEN, X-CSRF-Token)")
 
     def login(h: BaseHTTPRequestHandler) -> None:
         send(h, 200, b"{}", {"Set-Cookie": f"TOKEN={COOKIE}; Path=/; Secure; HttpOnly", "X-CSRF-Token": CSRF})
@@ -68,7 +67,6 @@ def test_sec02_wan_raw_does_not_carry_credentials() -> None:
 
 
 def test_sec03_target_repr_hides_api_key() -> None:
-    review_bug("SEC-03: collect.Target is a plain dataclass, so repr()/logging of a target prints the API key")
     ref = ConsoleRef(id="hq", name="hq", access="local", local_url="https://192.0.2.10")
     target = Target(ref, None, "https://192.0.2.10/proxy/network/integration", KEY, "X-API-KEY", None)
     assert KEY not in repr(target)

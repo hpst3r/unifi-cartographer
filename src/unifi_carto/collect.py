@@ -15,7 +15,7 @@ from unifi_carto import __version__
 from unifi_carto.build import build_inventory
 from unifi_carto.config import Config, ConsoleConfig, TlsConfig
 from unifi_carto.errors import ApiError, AuthRefused, CartoError, ConfigError
-from unifi_carto.http import ReadOnlyClient
+from unifi_carto.http import ReadOnlyClient, normalize_fingerprint
 from unifi_carto.integration import Integration
 from unifi_carto.legacy import Legacy
 from unifi_carto.model import CollectionWarning, Inventory
@@ -36,7 +36,7 @@ class Target:
     ref: ConsoleRef
     conf: ConsoleConfig | None  # None = discovered via Site Manager only
     official_base: str
-    official_key: str
+    official_key: str = field(repr=False)
     official_key_header: str
     tls: TlsConfig | None
 
@@ -60,24 +60,64 @@ def plan_targets(
     client_factory: ClientFactory = ReadOnlyClient,
     warnings: list[CollectionWarning],
 ) -> list[Target]:
-    """Resolve configured and Site Manager-discovered consoles into collection targets."""
+    """Resolve configured and Site Manager-discovered consoles into collection targets.
+
+    A configured console binds to a discovered host by ``host_id``, else by name if exactly one host has it.
+    """
+    host_ids = [c.host_id for c in cfg.consoles if c.host_id]
+    dup = sorted({h for h in host_ids if host_ids.count(h) > 1})
+    if dup:
+        raise ConfigError(f"host_id configured on more than one [[console]]: {dup}")
+    for conf in cfg.consoles:
+        if conf.tls.fingerprint:
+            try:
+                normalize_fingerprint(conf.tls.fingerprint)
+            except ValueError as exc:
+                raise ConfigError(f"console {conf.name}: {exc}") from None
     sm_key = cfg.site_manager_key.resolve("site manager API key")
     discovered: dict[str, ConsoleRef] = {}
+    sm_failed = False
     if sm_key:
-        with _closing(client_factory(SITE_MANAGER_URL, api_key=sm_key, api_key_header="X-API-Key")) as sm_t:
-            for host in SiteManager(sm_t).hosts():
-                try:
-                    found = host_summary(host)
-                except ApiError as exc:
-                    warnings.append(_w("parse_error", f"Site Manager host skipped: {exc}"))
-                    continue
-                discovered[found.id] = found
+        try:
+            with _closing(client_factory(SITE_MANAGER_URL, api_key=sm_key, api_key_header="X-API-Key")) as sm_t:
+                hosts = SiteManager(sm_t).hosts()
+        except CartoError as exc:
+            sm_failed = True
+            hosts = []
+            warnings.append(_w("site_manager_failed", f"Site Manager discovery failed: {_api_msg(exc)}"))
+        for host in hosts:
+            try:
+                found = host_summary(host)
+            except ApiError as exc:
+                warnings.append(_w("parse_error", f"Site Manager host skipped: {exc}"))
+                continue
+            discovered[found.id] = found
 
-    by_name = {ref.name: ref for ref in discovered.values()}
+    by_name: dict[str, list[ConsoleRef]] = {}
+    for found in discovered.values():
+        by_name.setdefault(found.name, []).append(found)
+    claimed = {c.host_id for c in cfg.consoles if c.host_id}
     targets: list[Target] = []
     used: set[str] = set()
     for conf in cfg.consoles:
-        ref = discovered.get(conf.host_id or "") or by_name.get(conf.name)
+        ref: ConsoleRef | None = None
+        ambiguous = False
+        if conf.host_id:
+            ref = discovered.get(conf.host_id)
+        else:
+            named = by_name.get(conf.name, [])
+            if len(named) == 1 and named[0].id not in claimed:
+                ref = named[0]
+            elif named:
+                ambiguous = True
+                warnings.append(
+                    _w(
+                        "console_ambiguous",
+                        "Site Manager host name is not unique or already bound by another console's host_id; "
+                        "set host_id to bind this console",
+                        conf.name,
+                    )
+                )
         if ref is not None:
             used.add(ref.id)
         if conf.local_url:
@@ -97,10 +137,9 @@ def plan_targets(
             )
         elif ref is not None and sm_key:
             targets.append(Target(ref, conf, connector_base_url(ref.id), sm_key, "X-API-Key", None))
-        else:
-            warnings.append(
-                _w("console_skipped", "no local_url and not found via Site Manager; nothing to collect", conf.name)
-            )
+        elif not ambiguous:
+            why = "Site Manager discovery failed" if sm_failed else "not found via Site Manager"
+            warnings.append(_w("console_skipped", f"no local_url and {why}; nothing to collect", conf.name))
     if sm_key:
         for ref in discovered.values():
             if ref.id not in used:
@@ -129,8 +168,10 @@ def collect(
     official: list[OfficialSnapshot] = []
     legacy_snaps: dict[tuple[str, str], LegacySnapshot] = {}
     failures = 0
+    # Secrets are resolved before any console is contacted: a ConfigError here is fatal (exit 2), not per console.
+    plan = [(t, _legacy_credentials(t) if legacy and _legacy_capable(t) else None) for t in targets]
 
-    for t in targets:
+    for t, creds in plan:
         name = t.ref.name
         target_snaps: list[OfficialSnapshot] = []
         try:
@@ -164,17 +205,25 @@ def collect(
                 failures += 1
                 warnings.append(_w("console_failed", _api_msg(exc), name))
             continue
+        except CartoError as exc:  # e.g. TlsPinMismatch while opening the client: this console only
+            failures += 1
+            warnings.append(_w("console_failed", _api_msg(exc), name))
+            continue
         finally:
             official.extend(target_snaps)
 
         if not legacy:
             continue
-        if t.ref.access != "local" or t.conf is None or not t.conf.local_url:
+        if not _legacy_capable(t):
             warnings.append(
                 _w("legacy_skipped_connector", "port-level data needs a local_url (legacy API is LAN/VPN only)", name)
             )
             continue
-        legacy_snaps.update(_collect_legacy(t, target_snaps, include_clients, warnings, client_factory))
+        try:
+            _collect_legacy(t, target_snaps, include_clients, creds, legacy_snaps, warnings, client_factory)
+        except CartoError as exc:  # official data for this console is kept
+            failures += 1
+            warnings.append(_w("legacy_error", f"legacy collection failed: {_api_msg(exc)}", name))
 
     inv = build_inventory(
         official,
@@ -195,25 +244,37 @@ def collect(
     return Result(inventory=inv, exit_code=code, official=official, legacy=legacy_snaps)
 
 
-_PARTIAL_CODES = frozenset({"site_failed", "console_failed", "console_auth_refused", "console_skipped"})
+_PARTIAL_CODES = frozenset(
+    {"site_failed", "console_failed", "console_auth_refused", "console_skipped", "site_manager_failed"}
+)
+
+
+def _legacy_capable(t: Target) -> bool:
+    return t.ref.access == "local" and t.conf is not None and bool(t.conf.local_url)
+
+
+def _legacy_credentials(t: Target) -> tuple[str, str] | None:
+    assert t.conf is not None
+    if not (t.conf.legacy_username.configured or t.conf.legacy_password.configured):
+        return None
+    user = t.conf.legacy_username.resolve(f"console {t.ref.name} legacy username")
+    pw = t.conf.legacy_password.resolve(f"console {t.ref.name} legacy password")
+    if not user or not pw:
+        raise ConfigError(f"console {t.ref.name}: legacy username and password must both be configured")
+    return (user, pw)
 
 
 def _collect_legacy(
     t: Target,
     snaps: list[OfficialSnapshot],
     include_clients: bool,
+    creds: tuple[str, str] | None,
+    out: dict[tuple[str, str], LegacySnapshot],
     warnings: list[CollectionWarning],
     client_factory: ClientFactory,
-) -> dict[tuple[str, str], LegacySnapshot]:
+) -> None:
+    """Add this console's legacy snapshots to ``out`` (sites done before an error are kept)."""
     assert t.conf is not None and t.conf.local_url
-    out: dict[tuple[str, str], LegacySnapshot] = {}
-    creds: tuple[str, str] | None = None
-    if t.conf.legacy_username.configured or t.conf.legacy_password.configured:
-        user = t.conf.legacy_username.resolve(f"console {t.ref.name} legacy username")
-        pw = t.conf.legacy_password.resolve(f"console {t.ref.name} legacy password")
-        if not user or not pw:
-            raise ConfigError(f"console {t.ref.name}: legacy username and password must both be configured")
-        creds = (user, pw)
     with _closing(client_factory(f"{t.conf.local_url}/proxy/network", api_key=t.official_key, tls=t.tls)) as tr:
         leg = Legacy(tr, console=t.ref.name)
         for snap in snaps:
@@ -233,7 +294,6 @@ def _collect_legacy(
                 warnings.extend(leg.last_warnings)
                 continue
             out[(snap.console.id, str(snap.site["id"]))] = got
-    return out
 
 
 class _closing:

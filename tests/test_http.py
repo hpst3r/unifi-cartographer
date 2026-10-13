@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import json
 import logging
 import re
@@ -17,7 +18,14 @@ import respx
 import trustme
 
 from unifi_carto.config import TlsConfig
-from unifi_carto.errors import ApiError, AuthRefused, EndpointUnavailable, ReadOnlyViolation, TlsPinMismatch
+from unifi_carto.errors import (
+    ApiError,
+    AuthRefused,
+    ConfigError,
+    EndpointUnavailable,
+    ReadOnlyViolation,
+    TlsPinMismatch,
+)
 from unifi_carto.http import ReadOnlyClient, build_ssl_context, fingerprint, format_fingerprint, normalize_fingerprint
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -68,17 +76,88 @@ def test_underlying_client_not_exposed() -> None:
         c.extra = 1  # type: ignore[attr-defined]
 
 
+_SENDING_ATTRS = frozenset({"post", "put", "patch", "delete", "request", "stream", "send"})
+_WRITE_VERBS = frozenset({"POST", "PUT", "PATCH", "DELETE"})
+# Second HTTP stacks that would bypass ReadOnlyClient (httpx included: only http.py may build a client).
+_NET_MODULES = frozenset({"urllib.request", "requests", "http.client", "aiohttp", "socket", "httpx"})
+
+
+def _write_risks(tree: ast.AST) -> list[tuple[int, str]]:
+    found: list[tuple[int, str]] = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call):
+            func = node.func
+            if isinstance(func, ast.Attribute) and func.attr in _SENDING_ATTRS:
+                found.append((node.lineno, f"call .{func.attr}()"))
+            if isinstance(func, ast.Name) and func.id == "getattr" and len(node.args) >= 2:
+                name = node.args[1]
+                if not isinstance(name, ast.Constant) or not isinstance(name.value, str):
+                    found.append((node.lineno, "getattr with a computed attribute name"))
+                elif name.value in _SENDING_ATTRS:
+                    found.append((node.lineno, f"getattr(..., {name.value!r})"))
+        elif isinstance(node, ast.Constant) and isinstance(node.value, str) and node.value.upper() in _WRITE_VERBS:
+            found.append((node.lineno, f"write verb literal {node.value!r}"))
+        elif isinstance(node, ast.Import):
+            found.extend((node.lineno, f"import {a.name}") for a in node.names if _is_net_module(a.name))
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            mods = [node.module, *(f"{node.module}.{a.name}" for a in node.names)]
+            if any(_is_net_module(m) for m in mods):
+                found.append((node.lineno, f"from {node.module} import ..."))
+    return found
+
+
+def _is_net_module(name: str) -> bool:
+    return any(name == m or name.startswith(m + ".") for m in _NET_MODULES)
+
+
 def test_no_write_calls_outside_http() -> None:
-    call = re.compile(r"\.(post|put|patch|delete)\(")
-    literal = re.compile(r"""method\s*=\s*["'](POST|PUT|PATCH|DELETE)["']|["'](POST|PUT|PATCH|DELETE)["']""", re.I)
     offenders = []
     for path in sorted((ROOT / "src" / "unifi_carto").rglob("*.py")):
         if path.name == "http.py" and path.parent.name == "unifi_carto":
             continue
-        for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
-            if call.search(line) or literal.search(line):
-                offenders.append(f"{path.relative_to(ROOT)}:{lineno}: {line.strip()}")
+        tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+        offenders.extend(f"{path.relative_to(ROOT)}:{line}: {what}" for line, what in _write_risks(tree))
     assert offenders == []
+
+
+@pytest.mark.parametrize(
+    "code",
+    [
+        "c.post(url)",
+        "c.post (url, json={})",
+        "c.request(VERB, url)",
+        "c.stream('GET', url)",
+        "getattr(c, 'po' + 'st')(url)",
+        "getattr(c, 'delete')(url)",
+        "m = 'patch'",
+        "import urllib.request",
+        "from urllib import request",
+        "from urllib.request import urlopen",
+        "import http.client",
+        "from http import client",
+        "import socket",
+        "import requests",
+        "import aiohttp",
+        "import httpx",
+    ],
+)
+def test_write_scanner_flags(code: str) -> None:
+    assert _write_risks(ast.parse(code))
+
+
+@pytest.mark.parametrize(
+    "code",
+    [
+        "c.get(url)",
+        "getattr(t, 'close', None)",
+        "from urllib.parse import quote",
+        "import http",
+        "x = 'GET'",
+        "x = 'posting'",
+    ],
+)
+def test_write_scanner_allows(code: str) -> None:
+    assert _write_risks(ast.parse(code)) == []
 
 
 def test_repr_hides_key() -> None:
@@ -325,6 +404,126 @@ def test_login_legacy_not_unifi_os() -> None:
     respx.post(LOGIN).respond(404)
     with pytest.raises(EndpointUnavailable):
         client(base=LEGACY).login_legacy(USER, PASSWORD)
+
+
+@pytest.mark.parametrize("failure", [429, 502, 503, 504, "connect"])
+@respx.mock
+def test_login_legacy_is_never_retried(failure: int | str) -> None:
+    route = respx.post(LOGIN)
+    if failure == "connect":
+        route.side_effect = httpx.ConnectError("refused")
+    else:
+        route.respond(failure, headers={"Retry-After": "0"}, json={})
+    sleeps = Sleeps()
+    with pytest.raises(ApiError) as info:
+        client(sleeps, base=LEGACY).login_legacy(USER, PASSWORD)
+    assert route.call_count == 1 and sleeps == []
+    assert PASSWORD not in str(info.value)
+
+
+def test_login_capability_checks_the_origin() -> None:
+    from unifi_carto.http import _LOGIN_CAP
+
+    c = client(base=LEGACY)
+    with respx.mock(assert_all_called=False) as mock:
+        route = mock.route().respond(200, json={})
+        for url in ("https://198.51.100.7/api/auth/login", "http://192.0.2.10/api/auth/login"):
+            with pytest.raises(ReadOnlyViolation):
+                c._send("POST", url, json_body={"username": USER}, capability=_LOGIN_CAP)
+        assert not route.called
+
+
+@respx.mock
+def test_legacy_invalid_envelope_is_auth_refused() -> None:
+    respx.get(LEGACY + "/api/s/default/stat/device").respond(
+        200, json={"meta": {"rc": "error", "msg": "api.err.Invalid"}, "data": []}
+    )
+    with pytest.raises(AuthRefused):
+        client(base=LEGACY).get_json("/api/s/default/stat/device")
+
+
+def test_legacy_auth_messages_are_shared() -> None:
+    from unifi_carto import http, legacy
+    from unifi_carto.errors import LEGACY_AUTH_MESSAGES
+
+    assert {"api.err.LoginRequired", "api.err.NoPermission", "api.err.Invalid", "api.err.Unauthorized"} == set(
+        LEGACY_AUTH_MESSAGES
+    )
+    assert http.LEGACY_AUTH_MESSAGES is legacy.LEGACY_AUTH_MESSAGES is LEGACY_AUTH_MESSAGES
+
+
+# -- pagination hardening (Amendment 2.7) ------------------------------------------------------
+
+
+@respx.mock
+def test_pagination_page_cap() -> None:
+    calls = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        return httpx.Response(200, json={"totalCount": 10**9, "data": [{"id": f"d{calls}"}]})
+
+    respx.get(BASE + "/v1/sites").mock(side_effect=handler)
+    with pytest.raises(ApiError, match="more than 1000 pages"):
+        client().get_paginated("/v1/sites", limit=1)
+    assert calls == 1000
+
+
+@respx.mock
+def test_pagination_drops_non_objects_with_one_debug_line(caplog: pytest.LogCaptureFixture) -> None:
+    caplog.set_level(logging.DEBUG, logger="unifi_carto")
+    pages = [[{"id": "a"}, None, "x"], [7, {"id": "b"}, []]]
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        offset = int(request.url.params["offset"])
+        return httpx.Response(200, json={"totalCount": 6, "data": pages[offset // 3]})
+
+    respx.get(BASE + "/v1/sites").mock(side_effect=handler)
+    assert client().get_paginated("/v1/sites", limit=3) == [{"id": "a"}, {"id": "b"}]
+    dropped = [r for r in caplog.records if "non-object" in r.getMessage()]
+    assert len(dropped) == 1 and "4" in dropped[0].getMessage()
+
+
+@respx.mock
+def test_pagination_identical_page_stops_even_with_ids() -> None:
+    respx.get(BASE + "/v1/sites").respond(200, json={"totalCount": 10, "data": [{"id": "a"}, {"id": "b"}]})
+    with pytest.raises(ApiError, match="repeats the previous one"):
+        client().get_paginated("/v1/sites", limit=2)
+
+
+# -- ca_cert (Amendment 2.8) -------------------------------------------------------------------
+
+
+def test_ca_cert_problems_are_config_errors(tmp_path: Path) -> None:
+    not_pem = tmp_path / "not.pem"
+    not_pem.write_text("not a certificate\n")
+    unreadable = tmp_path / "unreadable.pem"
+    unreadable.write_text("x")
+    unreadable.chmod(0)
+    for bad in (tmp_path, tmp_path / "missing.pem", not_pem, unreadable):
+        with pytest.raises(ConfigError):
+            build_ssl_context(TlsConfig(ca_cert=bad), "192.0.2.10", 443)
+
+
+# -- logging (Amendment 2.1) -------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("debug", [True, False])
+def test_cli_debug_raises_only_own_loggers(debug: bool, capsys: pytest.CaptureFixture[str]) -> None:
+    from unifi_carto.cli import main
+    from unifi_carto.http import THIRD_PARTY_LOGGERS
+
+    for name in THIRD_PARTY_LOGGERS:
+        logging.getLogger(name).setLevel(logging.NOTSET)
+    try:
+        assert main([*(["--debug"] if debug else []), "schema"]) == 0
+        capsys.readouterr()
+        assert logging.getLogger("unifi_carto").level == (logging.DEBUG if debug else logging.NOTSET)
+        for name in (*THIRD_PARTY_LOGGERS, "httpcore.http11", "httpx._client"):
+            assert logging.getLogger(name).getEffectiveLevel() == logging.WARNING
+    finally:
+        logging.getLogger("unifi_carto").setLevel(logging.NOTSET)
 
 
 @respx.mock

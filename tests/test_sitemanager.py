@@ -60,7 +60,11 @@ def test_bad_envelope() -> None:
 
 
 def test_connector_base_url() -> None:
-    assert connector_base_url(HOST_ID) == f"https://api.ui.com/v1/connector/consoles/{HOST_ID}/network/integration"
+    # Amendment 2.11: the server-supplied host id is one percent-encoded path segment (":" -> "%3A").
+    encoded = HOST_ID.replace(":", "%3A")
+    assert connector_base_url(HOST_ID) == f"https://api.ui.com/v1/connector/consoles/{encoded}/network/integration"
+    assert connector_base_url("../x?y#z").startswith("https://api.ui.com/v1/connector/consoles/..%2Fx%3Fy%23z/")
+    assert "/consoles/%2E%2E/" in connector_base_url("..")
 
 
 def test_host_summary_unifi_os() -> None:

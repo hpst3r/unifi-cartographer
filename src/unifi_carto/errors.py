@@ -28,6 +28,12 @@ class ApiError(CartoError):
         self.url = url  # must not contain credentials (they are headers, never query params)
 
 
+# Legacy envelope messages (``meta.msg`` with ``meta.rc != "ok"``) that mean "not authorized", even on HTTP 200.
+LEGACY_AUTH_MESSAGES: frozenset[str] = frozenset(
+    {"api.err.LoginRequired", "api.err.NoPermission", "api.err.Invalid", "api.err.Unauthorized"}
+)
+
+
 class AuthRefused(ApiError):
     """401/403: the credential is valid but not allowed here, or invalid."""
 

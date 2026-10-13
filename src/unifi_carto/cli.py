@@ -18,6 +18,7 @@ from unifi_carto import __version__
 from unifi_carto.config import load_config
 from unifi_carto.errors import CartoError, ConfigError
 from unifi_carto.model import Inventory, json_schema
+from unifi_carto.raw import ConsoleRef
 
 PAGE_CHOICES = ("logical", "cables", "schedule", "inventory")
 
@@ -59,7 +60,12 @@ def _parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
-    logging.basicConfig(level=logging.DEBUG if args.debug else logging.WARNING, format="%(levelname)s %(message)s")
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(message)s")
+    # --debug raises only our own loggers; the HTTP stack stays at WARNING (it logs headers and cookies).
+    logging.getLogger("unifi_carto").setLevel(logging.DEBUG if args.debug else logging.NOTSET)
+    from unifi_carto.http import pin_third_party_loggers
+
+    pin_third_party_loggers()
     try:
         return _dispatch(args)
     except ConfigError as exc:
@@ -105,6 +111,8 @@ def _dispatch(args: argparse.Namespace) -> int:
     if args.command == "collect":
         from unifi_carto.collect import collect
 
+        if not args.output.parent.is_dir():
+            raise ConfigError(f"output directory {args.output.parent} does not exist")
         result = collect(
             load_config(args.config),
             console_names=args.console,
@@ -156,8 +164,7 @@ def _capture(args: argparse.Namespace) -> int:
         si = sites.setdefault(f"{snap.console.id}/{snap.site.get('id')}", len(sites) + 1)
         site_dir = args.output / f"console-{ci}" / f"site-{si}"
         official_files: dict[str, Any] = {
-            # the id is a Site Manager host id (hardware-derived) or the configured name: positional instead
-            "console.json": {**asdict(snap.console), "id": f"console-{ci}"},
+            "console.json": _console_fixture(snap.console, ci),
             "site.json": snap.site,
             "info.json": {"applicationVersion": snap.app_version},
             "devices.json": snap.devices,
@@ -181,6 +188,13 @@ def _capture(args: argparse.Namespace) -> int:
             written += _write_scrubbed(site_dir / "legacy", legacy_files, salt, scrub)
     print(f"wrote {written} scrubbed file(s) under {args.output}; review them before committing")
     return result.exit_code
+
+
+def _console_fixture(console: ConsoleRef, index: int) -> dict[str, Any]:
+    """Console identity for a fixture: positional id/name; the Site Manager host id (hardware-derived) and
+    ``local_url`` (hostname) are dropped; model and firmware are kept."""
+    keep = {k: v for k, v in asdict(console).items() if k not in ("id", "name", "local_url", "host_id")}
+    return {**keep, "id": f"console-{index}", "name": f"console-{index}"}
 
 
 def _write_scrubbed(directory: Path, files: dict[str, Any], salt: str, scrub: Callable[..., Any]) -> int:
