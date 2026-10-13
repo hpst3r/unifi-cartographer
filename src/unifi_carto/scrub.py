@@ -1,7 +1,9 @@
 """Deterministic scrubber that turns real API captures into publishable test fixtures.
 
-Pure: the output depends only on the input and the salt, so separate files scrubbed
-with the same salt stay joinable (a MAC, IP, UUID or name maps identically everywhere).
+The output depends only on the input and the salt, so separate files scrubbed with the same
+salt stay joinable (a MAC, IP, UUID or name maps identically everywhere). The one exception is
+public IPv4: it maps through a per-salt table that lives for the process (one capture run), so
+the mapping is injective; collisions are resolved in order of first appearance.
 """
 
 from __future__ import annotations
@@ -15,9 +17,31 @@ from typing import Any, Final
 
 # Substrings that mark a key as secret or uniquely identifying hardware.
 _DROP_SUBSTRINGS: Final = ("pass", "secret", "psk", "token", "serial", "license")
-# Descriptive, enum-like keys kept verbatim (a firmware version like 10.6.106.1 must not be read as an IP).
-_KEEP_SUBSTRINGS: Final = ("version", "model", "type", "media", "shortname", "state", "status", "connector")
-# Identity keys (compared lowercase with "_" removed) whose string values are replaced by ``<kind>-<hex>``.
+# Location keys, matched on the first word of the key (``geo_info``, ``latitude``, ``ispName``).
+# ``lat``/``lon`` are whole words so that ``latency`` and ``long_retry`` are kept.
+_LOCATION_PREFIXES: Final = ("geo", "country", "isp", "latitude", "longitude")
+_LOCATION_WORDS: Final = frozenset({"lat", "lon", "lng"})
+_LOCATION_KEYS: Final = frozenset({"city", "address", "timezone"})
+# Descriptive, enum-like keys kept verbatim (a firmware version like 10.6.106.1 must not be read as an IP,
+# an interface name like eth8 is not an identity).
+_KEEP_SUBSTRINGS: Final = (
+    "version",
+    "model",
+    "type",
+    "media",
+    "shortname",
+    "state",
+    "status",
+    "connector",
+    "purpose",
+    "ifname",
+    "radio",
+)
+# Identity keys by word: exact words, and word prefixes (``port_descr``, ``domain_name``, ``notes``).
+_IDENTITY_WORDS: Final = {"alias": "name", "label": "label", "ssid": "ssid", "essid": "ssid", "email": "user"}
+_IDENTITY_PREFIXES: Final = (("desc", "desc"), ("domain", "domain"), ("note", "note"), ("comment", "note"))
+# Identity keys (compared lowercase with "_" removed) with a specific kind; any other key ending in
+# ``name`` is an identity of kind ``name``. String values become ``<kind>-<hex>``.
 _IDENTITY_KEYS: Final = {
     "name": "name",
     "hostname": "host",
@@ -34,13 +58,26 @@ _IDENTITY_KEYS: Final = {
     "note": "note",
 }
 
-_MAC_RE: Final = re.compile(
-    r"(?<![0-9A-Fa-f:-])(?:[0-9A-Fa-f]{2}([:-]))(?:[0-9A-Fa-f]{2}\1){4}[0-9A-Fa-f]{2}(?![0-9A-Fa-f:-])"
+_HEX: Final = "[0-9A-Fa-f]"
+# One pass over a string; alternatives are tried in order at each position, so a UUID wins over the
+# bare MAC that is its last group, and an IPv6 address over the MAC-like groups inside it.
+_TOKEN_RE: Final = re.compile(
+    rf"""
+    (?P<uuid>(?<![0-9A-Fa-f-]){_HEX}{{8}}-{_HEX}{{4}}-{_HEX}{{4}}-{_HEX}{{4}}-{_HEX}{{12}}(?![0-9A-Fa-f-]))
+    # IPv6 (optionally with an embedded IPv4 tail or a prefix length): must contain "::" or have 8 groups.
+    | (?P<ipv6>(?<![0-9A-Fa-f:.])
+        (?=[0-9A-Fa-f:]*::|(?:{_HEX}{{1,4}}:){{7}}{_HEX}{{1,4}}(?![0-9A-Fa-f:]))
+        [0-9A-Fa-f:]*[0-9A-Fa-f:](?:(?<=:)\d{{1,3}}(?:\.\d{{1,3}}){{3}})?(?:/\d{{1,3}})?
+        (?![0-9A-Fa-f:.]))
+    # MAC, colon or dash form: not inside a longer run of hex groups, except after a "mac:" prefix.
+    | (?P<mac>(?:(?<![0-9A-Fa-f])(?<![0-9A-Fa-f][:-])|(?<=[Mm][Aa][Cc][:-]))
+        {_HEX}{{2}}(?P<sep>[:-])(?:{_HEX}{{2}}(?P=sep)){{4}}{_HEX}{{2}}(?![0-9A-Fa-f])(?![:-]{_HEX}))
+    | (?P<macdot>(?<![0-9A-Fa-f.]){_HEX}{{4}}\.{_HEX}{{4}}\.{_HEX}{{4}}(?![0-9A-Fa-f.]))
+    | (?P<macbare>(?<![0-9A-Fa-f]){_HEX}{{12}}(?![0-9A-Fa-f]))
+    | (?P<ipv4>(?<![\d.])(?:\d{{1,3}}\.){{3}}\d{{1,3}}(?![\d.]))
+    """,
+    re.VERBOSE,
 )
-_UUID_RE: Final = re.compile(
-    r"(?<![0-9A-Fa-f-])[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}(?![0-9A-Fa-f-])"
-)
-_IPV4_RE: Final = re.compile(r"(?<![\d.])(?:\d{1,3}\.){3}\d{1,3}(?![\d.])")
 _KEY_WORDS: Final = re.compile(r"[A-Z]?[a-z0-9]+|[A-Z]+(?![a-z])")
 
 _RFC1918: Final = (
@@ -48,7 +85,15 @@ _RFC1918: Final = (
     (ipaddress.IPv4Network("172.16.0.0/12"), 12),
     (ipaddress.IPv4Network("192.168.0.0/16"), 8),
 )
-_PUBLIC_POOLS: Final = (ipaddress.IPv4Network("203.0.113.0/24"), ipaddress.IPv4Network("198.51.100.0/24"))
+# Public IPv4 maps to TEST-NET-3/TEST-NET-2 hosts, then (past 508 distinct addresses) to benchmark space.
+_PUBLIC_SLOTS: Final = tuple(
+    int(net.network_address) + host
+    for net in (ipaddress.IPv4Network("203.0.113.0/24"), ipaddress.IPv4Network("198.51.100.0/24"))
+    for host in range(1, 255)
+)
+_OVERFLOW: Final = ipaddress.IPv4Network("198.18.0.0/15")
+# salt -> (public address -> mapped address, used mapped addresses), for the life of the process.
+_PUBLIC_TABLES: dict[bytes, tuple[dict[int, int], set[int]]] = {}
 
 
 def scrub(obj: Any, *, salt: str) -> Any:
@@ -60,17 +105,42 @@ def drop_key(key: str) -> bool:
     """True if a key names a secret or hardware identity that must not appear in fixtures.
 
     ``key`` is matched as a word (``apiKey``, ``x_iapp_key``, ``wpakey``) so that ``keyword``,
-    ``keyboard`` or ``keepalive`` are kept; every legacy ``x_*`` field is a hidden secret.
+    ``keyboard`` or ``keepalive`` are kept; every legacy ``x_*`` field is a hidden secret. Location
+    keys (``geo_info``, ``latitude``, ``city``, ``isp_name``, ...) are dropped too.
     """
     lower = key.lower()
     if lower.startswith("x_") or any(s in lower for s in _DROP_SUBSTRINGS):
         return True
-    return any(w.endswith(("key", "keys")) for w in (m.lower() for m in _KEY_WORDS.findall(key)))
+    words = [m.lower() for m in _KEY_WORDS.findall(key)]
+    if any(w.endswith(("key", "keys")) for w in words):
+        return True
+    if lower.replace("_", "").replace("-", "") in _LOCATION_KEYS:
+        return True
+    return bool(words) and (words[0] in _LOCATION_WORDS or words[0].startswith(_LOCATION_PREFIXES))
+
+
+def _identity_kind(key: str) -> str | None:
+    """The ``<kind>`` prefix for a key whose string values identify a person, place or device; else None."""
+    joined = key.lower().replace("_", "").replace("-", "")
+    if kind := _IDENTITY_KEYS.get(joined):
+        return kind
+    for word in (m.lower() for m in _KEY_WORDS.findall(key)):
+        if kind := _IDENTITY_WORDS.get(word):
+            return kind
+        for prefix, kind in _IDENTITY_PREFIXES:
+            if word.startswith(prefix):
+                return kind
+    if joined.endswith("hostname"):
+        return "host"
+    if joined.endswith("username"):
+        return "user"
+    return "name" if joined.endswith("name") else None
 
 
 class _Scrubber:
     def __init__(self, salt: bytes) -> None:
         self.salt = salt
+        self.public = _PUBLIC_TABLES.setdefault(salt, ({}, set()))
 
     def digest(self, kind: str, value: str) -> bytes:
         return hmac.new(self.salt, f"{kind}\0{value}".encode(), hashlib.sha256).digest()
@@ -83,7 +153,7 @@ class _Scrubber:
         if isinstance(obj, str):
             if key and any(s in key.lower() for s in _KEEP_SUBSTRINGS):
                 return obj
-            kind = _IDENTITY_KEYS.get(key.lower().replace("_", "")) if key else None
+            kind = _identity_kind(key) if key else None
             if kind and obj:
                 return f"{kind}-{self.digest('name', obj).hex()[:6]}"
             return self.text(obj)
@@ -95,17 +165,34 @@ class _Scrubber:
         whole = self.whole_ip(value)
         if whole is not None:
             return whole
-        value = _UUID_RE.sub(lambda m: self.uuid(m.group(0)), value)
-        value = _MAC_RE.sub(lambda m: self.mac(m.group(0)), value)
-        return _IPV4_RE.sub(lambda m: self.ipv4_text(m.group(0)), value)
+        return _TOKEN_RE.sub(self.token, value)
+
+    def token(self, m: re.Match[str]) -> str:
+        value = m.group(0)
+        if m.group("uuid"):
+            return self.uuid(value)
+        if m.group("ipv6"):
+            # "::"-bearing text that is not an address: scrub the pieces (a MAC may follow the "::")
+            return self.whole_ip(value) or "::".join(self.text(p) for p in value.split("::"))
+        if m.group("mac"):
+            return self.mac(value, m.group("sep"))
+        if m.group("macdot"):
+            return self.mac(value, ".")
+        if m.group("macbare"):
+            return self.mac(value, "")
+        return self.ipv4_text(value)
 
     def uuid(self, value: str) -> str:
         return str(uuid.UUID(bytes=self.digest("uuid", value.lower())[:16], version=5))
 
-    def mac(self, value: str) -> str:
-        norm = value.lower().replace("-", ":")
-        tail = self.digest("mac", norm)[:5]
-        return "02:" + ":".join(f"{b:02x}" for b in tail)
+    def mac(self, value: str, sep: str) -> str:
+        """A locally administered MAC in the input's notation; every notation of one MAC maps alike."""
+        digits = re.sub("[^0-9a-f]", "", value.lower())
+        norm = ":".join(digits[i : i + 2] for i in range(0, 12, 2))
+        out = "02" + self.digest("mac", norm)[:5].hex()
+        if sep == ".":
+            return ".".join(out[i : i + 4] for i in range(0, 12, 4))
+        return sep.join(out[i : i + 2] for i in range(0, 12, 2))
 
     def ipv4_text(self, value: str) -> str:
         try:
@@ -146,9 +233,22 @@ class _Scrubber:
                 # distinct /24s stay distinct and the host octet is preserved.
                 index = (packed - int(net.network_address)) >> 8
                 return ipaddress.IPv4Address(int(net.network_address) + (self.permute(index, bits, net) << 8) + host)
-        h = self.digest("ipv4", str(addr))
-        pool = _PUBLIC_POOLS[h[0] & 1]
-        return ipaddress.IPv4Address(int(pool.network_address) + 1 + h[1] % 254)
+        return ipaddress.IPv4Address(self.public_v4(packed))
+
+    def public_v4(self, packed: int) -> int:
+        """Injective within the process: a keyed slot, then the next free one on collision."""
+        table, used = self.public
+        if (mapped := table.get(packed)) is not None:
+            return mapped
+        n = len(_PUBLIC_SLOTS)
+        if len(used) < n:
+            start = int.from_bytes(self.digest("ipv4", str(ipaddress.IPv4Address(packed)))[:4], "big") % n
+            mapped = next(s for s in (_PUBLIC_SLOTS[(start + i) % n] for i in range(n)) if s not in used)
+        else:
+            mapped = int(_OVERFLOW.network_address) + 1 + len(used) - n
+        table[packed] = mapped
+        used.add(mapped)
+        return mapped
 
     def permute(self, value: int, bits: int, net: ipaddress.IPv4Network) -> int:
         half = bits // 2
