@@ -6,7 +6,6 @@ import xml.etree.ElementTree as ET
 from datetime import UTC, datetime
 from typing import Any
 
-from review.conftest import review_bug
 from unifi_carto.build import build_inventory
 from unifi_carto.model import Device, Inventory, Site
 from unifi_carto.raw import ConsoleRef, LegacySnapshot, OfficialSnapshot
@@ -28,9 +27,6 @@ def official_device(dev_id: str, mac: str, name: str, feature: str, uplink: str 
 
 
 def test_bld01_one_cable_seen_from_both_ends_is_one_link() -> None:
-    review_bug(
-        "BLD-01: uplink (remote port unknown) + upstream LLDP (remote port unparsed) yields two links, one cable"
-    )
     snap = OfficialSnapshot(
         console=CONSOLE,
         site=SITE,
@@ -62,7 +58,6 @@ def test_bld01_one_cable_seen_from_both_ends_is_one_link() -> None:
 
 
 def test_rnd01_control_characters_in_names_keep_the_document_well_formed() -> None:
-    review_bug("RND-01: control characters in names/site names are written raw, producing invalid XML 1.0")
     inv = Inventory(
         generated_at=AT,
         collector_version="0",

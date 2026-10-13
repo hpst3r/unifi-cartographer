@@ -7,6 +7,9 @@ import xml.etree.ElementTree as ET
 from collections.abc import Sequence
 
 _SLUG = re.compile(r"[^A-Za-z0-9_.-]+")
+_SPACE = re.compile(r"[\t\n\r]")
+# C0 controls, lone surrogates and U+FFFE/U+FFFF are not allowed in XML 1.0 documents.
+_INVALID = re.compile("[\x00-\x08\x0b\x0c\x0e-\x1f\ud800-\udfff￾￿]")
 
 Point = tuple[float, float]
 
@@ -14,6 +17,11 @@ Point = tuple[float, float]
 def slug(value: str) -> str:
     """Reduce a model id to characters that are safe and readable in a cell id."""
     return _SLUG.sub("-", value).strip("-") or "x"
+
+
+def clean(value: str) -> str:
+    """Make device-supplied text safe in XML: tab/newline become spaces, other C0 controls are dropped."""
+    return _INVALID.sub("", _SPACE.sub(" ", value))
 
 
 def num(value: float) -> str:
@@ -27,7 +35,7 @@ class Page:
 
     def __init__(self, diagram_id: str, name: str, prefix: str) -> None:
         self.diagram_id = diagram_id
-        self.name = name
+        self.name = clean(name)
         self.prefix = prefix
         self._cells: list[ET.Element] = []
         self._ids: set[str] = {"0", "1"}
@@ -50,7 +58,7 @@ class Page:
         self, key: str, value: str, style: str, x: float, y: float, w: float, h: float, parent: str = "1"
     ) -> str:
         cid = self.new_id(key)
-        cell = ET.Element("mxCell", {"id": cid, "value": value, "style": style, "vertex": "1", "parent": parent})
+        cell = ET.Element("mxCell", {"id": cid, "value": clean(value), "style": style, "vertex": "1", "parent": parent})
         ET.SubElement(
             cell, "mxGeometry", {"x": num(x), "y": num(y), "width": num(w), "height": num(h), "as": "geometry"}
         )
@@ -76,7 +84,7 @@ class Page:
             "mxCell",
             {
                 "id": cid,
-                "value": value,
+                "value": clean(value),
                 "style": style,
                 "edge": "1",
                 "parent": parent,
