@@ -1,0 +1,1269 @@
+{
+  "$defs": {
+    "Client": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "ip": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ip"
+        },
+        "mac": {
+          "title": "Mac",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "switch_port": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Switch Port"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type"
+        },
+        "uplink_device_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uplink Device Id"
+        },
+        "vlan": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Vlan"
+        }
+      },
+      "required": [
+        "id",
+        "site_id",
+        "mac"
+      ],
+      "title": "Client",
+      "type": "object"
+    },
+    "CollectionWarning": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "console": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Console"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        },
+        "site": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Site"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "CollectionWarning",
+      "type": "object"
+    },
+    "Console": {
+      "additionalProperties": false,
+      "properties": {
+        "access": {
+          "enum": [
+            "local",
+            "connector"
+          ],
+          "title": "Access",
+          "type": "string"
+        },
+        "firmware": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Firmware"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "legacy": {
+          "default": "unavailable",
+          "enum": [
+            "api_key",
+            "login",
+            "unavailable",
+            "disabled"
+          ],
+          "title": "Legacy",
+          "type": "string"
+        },
+        "local_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Url"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "network_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Network Version"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "access"
+      ],
+      "title": "Console",
+      "type": "object"
+    },
+    "Device": {
+      "additionalProperties": false,
+      "properties": {
+        "firmware": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Firmware"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "ip": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ip"
+        },
+        "mac": {
+          "title": "Mac",
+          "type": "string"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Model"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "ports": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "title": "Ports",
+          "type": "array"
+        },
+        "radios": {
+          "items": {
+            "$ref": "#/$defs/Radio"
+          },
+          "title": "Radios",
+          "type": "array"
+        },
+        "role": {
+          "default": "other",
+          "enum": [
+            "gateway",
+            "switch",
+            "access_point",
+            "other"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "state": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State"
+        },
+        "uplink_device_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Uplink Device Id"
+        }
+      },
+      "required": [
+        "id",
+        "site_id",
+        "mac"
+      ],
+      "title": "Device",
+      "type": "object"
+    },
+    "ExternalPeer": {
+      "additionalProperties": false,
+      "description": "A neighbor seen via LLDP (or a legacy uplink MAC) that is not a managed device.",
+      "properties": {
+        "chassis_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Chassis Id"
+        },
+        "port_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Port Id"
+        },
+        "system_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "System Name"
+        }
+      },
+      "title": "ExternalPeer",
+      "type": "object"
+    },
+    "Lag": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "local",
+            "multi_chassis",
+            "switch_stack"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "members": {
+          "items": {
+            "$ref": "#/$defs/LagMember"
+          },
+          "title": "Members",
+          "type": "array"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "site_id",
+        "kind",
+        "members"
+      ],
+      "title": "Lag",
+      "type": "object"
+    },
+    "LagMember": {
+      "additionalProperties": false,
+      "properties": {
+        "device_id": {
+          "title": "Device Id",
+          "type": "string"
+        },
+        "port_idxs": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Port Idxs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "device_id",
+        "port_idxs"
+      ],
+      "title": "LagMember",
+      "type": "object"
+    },
+    "Link": {
+      "additionalProperties": false,
+      "properties": {
+        "a": {
+          "$ref": "#/$defs/LinkEnd"
+        },
+        "b": {
+          "$ref": "#/$defs/LinkEnd"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "default": "unknown",
+          "enum": [
+            "wired",
+            "wireless",
+            "mesh",
+            "unknown"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "lag_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lag Id"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Source"
+        },
+        "speed_mbps": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Speed Mbps"
+        }
+      },
+      "required": [
+        "id",
+        "site_id",
+        "a",
+        "b",
+        "source"
+      ],
+      "title": "Link",
+      "type": "object"
+    },
+    "LinkEnd": {
+      "additionalProperties": false,
+      "properties": {
+        "device_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Device Id"
+        },
+        "external": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExternalPeer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "port_idx": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Port Idx"
+        }
+      },
+      "title": "LinkEnd",
+      "type": "object"
+    },
+    "Network": {
+      "additionalProperties": false,
+      "properties": {
+        "dhcp_enabled": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dhcp Enabled"
+        },
+        "enabled": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Enabled"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "purpose": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Purpose"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "subnet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Subnet"
+        },
+        "vlan_id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Vlan Id"
+        }
+      },
+      "required": [
+        "id",
+        "site_id",
+        "name"
+      ],
+      "title": "Network",
+      "type": "object"
+    },
+    "PoE": {
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Enabled"
+        },
+        "standard": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard"
+        },
+        "state": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "State"
+        }
+      },
+      "title": "PoE",
+      "type": "object"
+    },
+    "Port": {
+      "additionalProperties": false,
+      "properties": {
+        "connector": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Connector"
+        },
+        "enabled": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Enabled"
+        },
+        "idx": {
+          "minimum": 1,
+          "title": "Idx",
+          "type": "integer"
+        },
+        "is_uplink": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is Uplink"
+        },
+        "lag_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lag Id"
+        },
+        "max_speed_mbps": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Speed Mbps"
+        },
+        "media": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Media"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "native_vlan": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Native Vlan"
+        },
+        "poe": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PoE"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "profile": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Profile"
+        },
+        "sfp": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sfp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        },
+        "speed_mbps": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Speed Mbps"
+        },
+        "state": {
+          "default": "unknown",
+          "enum": [
+            "up",
+            "down",
+            "unknown"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "tagged_vlans": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "const": "all",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tagged Vlans"
+        }
+      },
+      "required": [
+        "idx"
+      ],
+      "title": "Port",
+      "type": "object"
+    },
+    "Radio": {
+      "additionalProperties": false,
+      "properties": {
+        "channel": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Channel"
+        },
+        "channel_width_mhz": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Channel Width Mhz"
+        },
+        "frequency_ghz": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Frequency Ghz"
+        },
+        "wlan_standard": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Wlan Standard"
+        }
+      },
+      "title": "Radio",
+      "type": "object"
+    },
+    "Sfp": {
+      "additionalProperties": false,
+      "properties": {
+        "part": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Part"
+        },
+        "serial": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Serial"
+        },
+        "vendor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Vendor"
+        }
+      },
+      "title": "Sfp",
+      "type": "object"
+    },
+    "Site": {
+      "additionalProperties": false,
+      "properties": {
+        "console_id": {
+          "title": "Console Id",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "internal_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Internal Reference"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "console_id",
+        "name"
+      ],
+      "title": "Site",
+      "type": "object"
+    },
+    "Source": {
+      "enum": [
+        "official",
+        "legacy",
+        "lldp",
+        "site_manager",
+        "inferred"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "Wan": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "raw": {
+          "additionalProperties": true,
+          "title": "Raw",
+          "type": "object"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "site_id"
+      ],
+      "title": "Wan",
+      "type": "object"
+    },
+    "Wlan": {
+      "additionalProperties": false,
+      "properties": {
+        "bands": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Bands"
+        },
+        "enabled": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Enabled"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "network_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Network Id"
+        },
+        "security": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Security"
+        },
+        "site_id": {
+          "title": "Site Id",
+          "type": "string"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Source"
+          },
+          "title": "Sources",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "site_id",
+        "name"
+      ],
+      "title": "Wlan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "clients": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Client"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Clients"
+    },
+    "collector_version": {
+      "title": "Collector Version",
+      "type": "string"
+    },
+    "consoles": {
+      "items": {
+        "$ref": "#/$defs/Console"
+      },
+      "title": "Consoles",
+      "type": "array"
+    },
+    "devices": {
+      "items": {
+        "$ref": "#/$defs/Device"
+      },
+      "title": "Devices",
+      "type": "array"
+    },
+    "generated_at": {
+      "format": "date-time",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "lags": {
+      "items": {
+        "$ref": "#/$defs/Lag"
+      },
+      "title": "Lags",
+      "type": "array"
+    },
+    "links": {
+      "items": {
+        "$ref": "#/$defs/Link"
+      },
+      "title": "Links",
+      "type": "array"
+    },
+    "networks": {
+      "items": {
+        "$ref": "#/$defs/Network"
+      },
+      "title": "Networks",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sites": {
+      "items": {
+        "$ref": "#/$defs/Site"
+      },
+      "title": "Sites",
+      "type": "array"
+    },
+    "wans": {
+      "items": {
+        "$ref": "#/$defs/Wan"
+      },
+      "title": "Wans",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "$ref": "#/$defs/CollectionWarning"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "wlans": {
+      "items": {
+        "$ref": "#/$defs/Wlan"
+      },
+      "title": "Wlans",
+      "type": "array"
+    }
+  },
+  "required": [
+    "generated_at",
+    "collector_version"
+  ],
+  "title": "Inventory",
+  "type": "object"
+}

@@ -1,0 +1,10 @@
+[site_manager]
+api_key_env = "UNIFI_SM_API_KEY"          # Site Manager key (unifi.ui.com > API); read-only
+
+[[console]]
+name = "hq"                                 # must match the Site Manager host name to merge with discovery
+local_url = "https://10.0.0.1"              # enables the local official API and the legacy port layer
+api_key_env = "UNIFI_HQ_API_KEY"            # Network integration key created by a View-Only admin
+tls_fingerprint = "sha256:00:11:22:..."     # from: unifi-carto pin https://10.0.0.1
+# legacy_username_env = "UNIFI_HQ_RO_USER"  # optional cookie fallback (local View-Only admin)
+# legacy_password_file = "~/.config/unifi-carto/hq.pass"

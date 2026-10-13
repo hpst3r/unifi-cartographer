@@ -1,0 +1,13 @@
+unifi-cartographer
+Copyright (C) 2026 William Porter
+
+Licensed under the GNU Affero General Public License v3.0 or later (see LICENSE).
+
+Design references (no code copied):
+- enuno/unifi-mcp-server (Apache-2.0) - approach of merging the Integration API
+  device uplink with legacy stat/device port fields.
+- gitkodak/unifi-map (AGPL-3.0) - read-only UniFi diagram generator.
+- opastorello/unifi-api-docs - mirror of Ubiquiti's published OpenAPI specs.
+- hyperb1iss/unifly (Apache-2.0) - API field reference.
+
+UniFi is a trademark of Ubiquiti Inc. This project is not affiliated with Ubiquiti.
