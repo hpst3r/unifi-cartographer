@@ -17,7 +17,6 @@ def dumped(obj: Any) -> str:
 
 
 def test_scr01_mac_notations_are_scrubbed() -> None:
-    review_bug("SCR-01: MACs without separators, in dotted form or after ':'/'-' (e.g. 'mac:aa:..') survive scrubbing")
     samples = {
         "device_mac": "a4b1c2d3e4f5",
         "macAddress": "A4B1C2D3E4F6",
@@ -31,7 +30,6 @@ def test_scr01_mac_notations_are_scrubbed() -> None:
 
 
 def test_scr02_names_under_unlisted_keys_are_scrubbed() -> None:
-    review_bug("SCR-02: names/usernames/domains under keys outside _IDENTITY_KEYS are kept verbatim")
     legacy_device = {
         "mac": "02:00:00:00:02:01",
         "uplink": {"uplink_mac": "02:00:00:00:02:02", "uplink_device_name": "acme-hq-core-sw"},
@@ -59,7 +57,6 @@ def test_scr02_names_under_unlisted_keys_are_scrubbed() -> None:
 
 
 def test_scr03_location_data_is_scrubbed() -> None:
-    review_bug("SCR-03: gateway geo_info (coordinates, city, ISP) passes the scrubber untouched")
     gateway = {
         "mac": "02:00:00:00:03:01",
         "type": "udm",
@@ -79,7 +76,6 @@ def test_scr03_location_data_is_scrubbed() -> None:
 
 
 def test_scr04_ipv6_inside_longer_strings_is_scrubbed() -> None:
-    review_bug("SCR-04: IPv6 addresses are only scrubbed when they are the whole string (URLs, lists leak)")
     out = scrub(
         {"inform_url": "http://[2001:db8:4242::1]:8080/inform", "dns": "2001:db8:4242::53, 2001:db8:4242::54"},
         salt=SALT,
@@ -88,7 +84,6 @@ def test_scr04_ipv6_inside_longer_strings_is_scrubbed() -> None:
 
 
 def test_scr05_public_ipv4_mapping_is_injective() -> None:
-    review_bug("SCR-05: public IPv4s map into 508 addresses, so distinct addresses collide and joins break")
     ips = [str(ipaddress.IPv4Address("192.0.2.1") + i) for i in range(100)]  # TEST-NET-1, mapped like public
     out = scrub(ips, salt=SALT)
     assert len(set(out)) == len(ips)

@@ -105,7 +105,7 @@ def test_mac_join_preserved() -> None:
     assert official_mac != MAC
     assert out["legacy"]["mac"] == official_mac  # case-insensitive input, same output
     upstream = out["legacy"]["uplink"]["uplink_mac"]
-    assert out["legacy"]["lldp_table"][0]["chassis_id"] == upstream  # dash form joins too
+    assert out["legacy"]["lldp_table"][0]["chassis_id"] == upstream.replace(":", "-")  # dash form joins too
     assert out["legacy"]["lldp_table"][0]["port_id"] == f"Port 3 of {upstream}"  # embedded
     assert upstream != official_mac
 
@@ -181,3 +181,112 @@ def test_scalars_untouched() -> None:
         "f": 1.5,
         "s": "plain",
     }
+
+
+def test_mac_notations_map_alike_and_keep_their_form() -> None:
+    colon = scrub("02:00:00:aa:bb:03", salt=SALT)
+    digits = colon.replace(":", "")
+    out = scrub(
+        {
+            "a": "02-00-00-AA-BB-03",
+            "b": "0200.00aa.bb03",
+            "c": "020000aabb03",
+            "d": "mac:02:00:00:aa:bb:03",
+            "e": "uplink-02:00:00:AA:BB:03",
+        },
+        salt=SALT,
+    )
+    assert out == {
+        "a": colon.replace(":", "-"),
+        "b": ".".join(digits[i : i + 4] for i in range(0, 12, 4)),
+        "c": digits,
+        "d": f"mac:{colon}",
+        "e": f"uplink-{colon}",
+    }
+
+
+def test_hex_runs_that_are_not_macs_are_kept() -> None:
+    object_id = "5f1e0a2b3c4d5e6f7a8b9c0d"  # legacy _id: 24 hex, not two MACs
+    v6 = "fe80::aa:bb:cc:dd:ee:ff"
+    bad = "2001:db8::02:00:00:aa:bb:04"  # has "::" but too many groups for an address
+    out = scrub({"_id": object_id, "seven": "aa:bb:cc:dd:ee:ff:01", "v6": f"addr {v6}", "bad": bad}, salt=SALT)
+    assert out["_id"] == object_id
+    assert out["seven"] == "aa:bb:cc:dd:ee:ff:01"
+    mapped = ipaddress.IPv6Address(out["v6"].removeprefix("addr "))  # one IPv6 address, not a MAC inside it
+    assert mapped in ipaddress.IPv6Network("fd00::/8")
+    assert out["bad"] == "2001:db8::" + scrub("02:00:00:aa:bb:04", salt=SALT)
+    assert scrub(DEV_ID, salt=SALT) == scrub({"id": DEV_ID}, salt=SALT)["id"]  # the UUID's last group is not a MAC
+
+
+@pytest.mark.parametrize(
+    "key",
+    ["uplink_device_name", "chassis_name", "system_name", "displayName", "alias", "description", "port_descr",
+     "domain_name", "domain", "wan_username", "label", "ssid", "email", "notes", "comment", "x509_hostname"],
+)  # fmt: skip
+def test_identity_keys_by_pattern(key: str) -> None:
+    out = scrub({key: "acme-thing"}, salt=SALT)
+    assert "acme" not in json.dumps(out)
+
+
+@pytest.mark.parametrize(
+    ("key", "value"),
+    [("model_name", "USW Pro 24"), ("shortname", "USW24"), ("purpose", "corporate"), ("ifname", "eth8"),
+     ("radio_name", "wifi0"), ("device_type", "switch"), ("state", "connected")],
+)  # fmt: skip
+def test_enum_name_keys_kept(key: str, value: str) -> None:
+    assert scrub({key: value}, salt=SALT) == {key: value}
+
+
+@pytest.mark.parametrize(
+    ("key", "dropped"),
+    [("geo_info", True), ("geoCode", True), ("latitude", True), ("lat", True), ("longitude", True), ("lng", True),
+     ("city", True), ("country_code", True), ("countryCode", True), ("address", True), ("isp_name", True),
+     ("ispOrganization", True), ("timezone", True), ("time_zone", True),
+     ("latency", False), ("long_retry", False), ("ip_address", False), ("macAddress", False), ("ipv6", False)],
+)  # fmt: skip
+def test_location_keys_dropped(key: str, dropped: bool) -> None:
+    assert drop_key(key) is dropped
+    assert (key in scrub({key: 1}, salt=SALT)) is not dropped
+
+
+def test_wifi_passphrases_dropped() -> None:
+    official_wlan = {
+        "id": DEV_ID,
+        "name": "corp-wifi",
+        "securityConfiguration": {"type": "WPA2_PERSONAL", "passphrase": "hunter2-synthetic"},
+    }
+    legacy_wlan = {"name": "corp-wifi", "security": "wpapsk", "x_passphrase": "hunter2-synthetic"}
+    out = scrub({"official": official_wlan, "legacy": legacy_wlan}, salt=SALT)
+    assert "hunter2" not in json.dumps(out)
+    assert out["official"]["securityConfiguration"] == {"type": "WPA2_PERSONAL"}
+    assert "x_passphrase" not in out["legacy"]
+
+
+def test_ip_addresses_inside_longer_strings() -> None:
+    out = scrub(
+        {
+            "inform": "http://[2001:db8:4242::1]:8080/inform",
+            "dns": "2001:db8:4242::53,2001:db8:4242::54",
+            "route": "via 2001:db8:4242::/48 dev eth0",
+            "mapped": "peer ::ffff:8.8.8.8",
+            "v4": "http://8.8.4.4:8443/x, 10.20.30.0/24",
+            "clock": "uptime 12:00:00",
+        },
+        salt=SALT,
+    )
+    assert "4242" not in json.dumps(out)
+    assert "8.8." not in json.dumps(out)
+    assert out["clock"] == "uptime 12:00:00"
+    url_v6 = out["inform"].removeprefix("http://[").removesuffix("]:8080/inform")
+    assert url_v6 == scrub("2001:db8:4242::1", salt=SALT)  # same mapping as a whole-string address
+    net = ipaddress.ip_network(out["route"].split()[1])
+    assert net.prefixlen == 48
+    assert ipaddress.ip_network(out["v4"].split(", ")[1]).prefixlen == 24
+
+
+def test_public_ipv4_injective_and_stable_across_calls() -> None:
+    ips = [str(ipaddress.IPv4Address("100.64.0.0") + i * 7) for i in range(600)]  # beyond the 508 TEST-NET slots
+    out = scrub(ips, salt="injective-salt")
+    assert len(set(out)) == len(ips)
+    assert all(not ipaddress.IPv4Address(o).is_global for o in out)
+    assert [scrub(ip, salt="injective-salt") for ip in ips[:5]] == out[:5]  # joinable across files in one run
