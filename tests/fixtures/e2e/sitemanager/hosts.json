@@ -1,0 +1,45 @@
+{
+  "data": [
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000e2e001:100000001",
+      "ipAddress": "203.0.113.10",
+      "reportedState": {
+        "hardware": {
+          "shortname": "UDMPRO"
+        },
+        "hostname": "hq",
+        "name": "hq",
+        "version": "4.1.13"
+      },
+      "type": "console"
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000e2e002:100000002",
+      "ipAddress": "203.0.113.10",
+      "reportedState": {
+        "hardware": {
+          "shortname": "UCGMAX"
+        },
+        "hostname": "branch",
+        "name": "branch",
+        "version": "4.1.13"
+      },
+      "type": "console"
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000e2e003:100000003",
+      "ipAddress": "203.0.113.10",
+      "reportedState": {
+        "hardware": {
+          "shortname": "UNVR"
+        },
+        "hostname": "nvr",
+        "name": "nvr",
+        "version": "4.0.5"
+      },
+      "type": "console"
+    }
+  ],
+  "httpStatusCode": 200,
+  "traceId": "trace-e2e"
+}

@@ -12,6 +12,8 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+from pydantic import ValidationError
+
 from unifi_carto import __version__
 from unifi_carto.config import load_config
 from unifi_carto.errors import CartoError, ConfigError
@@ -76,12 +78,22 @@ def _dispatch(args: argparse.Namespace) -> int:
     if args.command == "pin":
         from unifi_carto.http import fingerprint
 
-        print(fingerprint(args.url))
+        try:
+            print(fingerprint(args.url))
+        except ValueError as exc:
+            raise ConfigError(str(exc)) from None
+        except OSError as exc:
+            raise CartoError(f"cannot fetch TLS certificate from {args.url}: {exc.strerror or exc}") from None
         return 0
     if args.command == "render":
         from unifi_carto.render import render_drawio
 
-        inv = Inventory.model_validate_json(args.inventory.read_text(encoding="utf-8"))
+        try:
+            inv = Inventory.model_validate_json(args.inventory.read_text(encoding="utf-8"))
+        except OSError as exc:
+            raise ConfigError(f"cannot read inventory {args.inventory}: {exc.strerror}") from None
+        except ValidationError as exc:
+            raise ConfigError(f"{args.inventory} is not a valid inventory ({exc.error_count()} error(s))") from None
         pages = [p.strip() for p in args.pages.split(",") if p.strip()]
         try:
             xml = render_drawio(inv, pages=pages, site_ids=args.site or None)
@@ -144,7 +156,8 @@ def _capture(args: argparse.Namespace) -> int:
         si = sites.setdefault(f"{snap.console.id}/{snap.site.get('id')}", len(sites) + 1)
         site_dir = args.output / f"console-{ci}" / f"site-{si}"
         official_files: dict[str, Any] = {
-            "console.json": asdict(snap.console),
+            # the id is a Site Manager host id (hardware-derived) or the configured name: positional instead
+            "console.json": {**asdict(snap.console), "id": f"console-{ci}"},
             "site.json": snap.site,
             "info.json": {"applicationVersion": snap.app_version},
             "devices.json": snap.devices,

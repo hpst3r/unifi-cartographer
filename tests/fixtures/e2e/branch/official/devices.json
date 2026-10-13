@@ -1,0 +1,107 @@
+[
+  {
+    "features": [
+      "gateway",
+      "switching"
+    ],
+    "firmwareUpdatable": false,
+    "firmwareVersion": "7.1.66",
+    "id": "de000000-0001-4000-8000-000000000001",
+    "interfaces": [
+      "ports"
+    ],
+    "ipAddress": "10.1.0.1",
+    "macAddress": "02:00:00:01:00:01",
+    "model": "UDM Pro",
+    "name": "br-udm-pro",
+    "state": "ONLINE",
+    "supported": true
+  },
+  {
+    "features": [
+      "switching"
+    ],
+    "firmwareUpdatable": false,
+    "firmwareVersion": "7.1.66",
+    "id": "de000000-0001-4000-8000-000000000002",
+    "interfaces": [
+      "ports"
+    ],
+    "ipAddress": "10.1.0.2",
+    "macAddress": "02:00:00:01:00:02",
+    "model": "USW Aggregation",
+    "name": "br-usw-agg-a",
+    "state": "ONLINE",
+    "supported": true
+  },
+  {
+    "features": [
+      "switching"
+    ],
+    "firmwareUpdatable": false,
+    "firmwareVersion": "7.1.66",
+    "id": "de000000-0001-4000-8000-000000000003",
+    "interfaces": [
+      "ports"
+    ],
+    "ipAddress": "10.1.0.3",
+    "macAddress": "02:00:00:01:00:03",
+    "model": "USW Pro 48 PoE",
+    "name": "br-usw-acc-1",
+    "state": "ONLINE",
+    "supported": true
+  },
+  {
+    "features": [
+      "switching"
+    ],
+    "firmwareUpdatable": false,
+    "firmwareVersion": "7.1.66",
+    "id": "de000000-0001-4000-8000-000000000004",
+    "interfaces": [
+      "ports"
+    ],
+    "ipAddress": "10.1.0.4",
+    "macAddress": "02:00:00:01:00:04",
+    "model": "USW Pro 48 PoE",
+    "name": "br-usw-acc-2",
+    "state": "ONLINE",
+    "supported": true
+  },
+  {
+    "features": [
+      "accessPoint"
+    ],
+    "firmwareUpdatable": false,
+    "firmwareVersion": "7.1.66",
+    "id": "de000000-0001-4000-8000-000000000005",
+    "interfaces": [
+      "ports",
+      "radios"
+    ],
+    "ipAddress": "10.1.0.5",
+    "macAddress": "02:00:00:01:00:05",
+    "model": "U6 Pro",
+    "name": "br-uap-1",
+    "state": "ONLINE",
+    "supported": true
+  },
+  {
+    "features": [
+      "accessPoint"
+    ],
+    "firmwareUpdatable": false,
+    "firmwareVersion": "7.1.66",
+    "id": "de000000-0001-4000-8000-000000000006",
+    "interfaces": [
+      "ports",
+      "radios"
+    ],
+    "ipAddress": "10.1.0.6",
+    "macAddress": "02:00:00:01:00:06",
+    "model": "U6 Pro",
+    "name": "br-uap-2",
+    "state": "ONLINE",
+    "supported": true
+  }
+]
