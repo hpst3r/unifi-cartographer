@@ -149,3 +149,11 @@ Findings in `docs/reviews/2026-10-review-1.md`; decisions the fix wave implement
 15. **Builder dedup:** one cable seen as an uplink with unknown remote port and as upstream LLDP with unparseable port id is one Link; merge port numbers from both observations. (BLD-01)
 16. **Renderer:** strip C0 control characters (except tab/newline handled as spaces) from every rendered string. (RND-01)
 17. **Legacy-only `collect -o` into a missing directory:** create parent directories? No: fail early with ConfigError before collecting.
+
+### Amendment 3 (fix-wave 1 integration, 2026-10-13)
+
+1. Site Manager host ids contain `:`; `connector_base_url` percent-encodes everything except `:` (a legal path character) so the id reaches api.ui.com as documented. Other server-supplied ids are encoded with `safe=""`.
+2. The write-call scanner also flags `getattr` with a computed or write-verb name and any `httpx` import outside `http.py` (accepted from f1).
+3. `scrub.py` is deterministic per salt; the public-IPv4 table is per capture run (process), not a pure function of one value (accepted from f2).
+4. A repeated pagination page raises `ApiError` (partial data is never returned silently).
+5. Exports of an inline `Wan.raw` use an allow-list that is a best guess until real WAN responses are captured; revisit with live fixtures.

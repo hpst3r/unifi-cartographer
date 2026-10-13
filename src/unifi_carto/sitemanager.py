@@ -21,7 +21,10 @@ _MAX_PAGES: Final = 1000
 
 def connector_base_url(host_id: str) -> str:
     """Integration API base for a console reached through the Site Manager connector."""
-    seg = quote(host_id, safe="")  # server-supplied: one path segment, never a traversal
+    # Server-supplied: keep it one path segment (no "/", "?", "#", traversal). ":" is legal in a path
+    # segment (RFC 3986 pchar) and Site Manager host ids contain one ("<hex>:<number>"); keep it literal
+    # so the connector's router sees the id exactly as documented.
+    seg = quote(host_id, safe=":")
     if seg in (".", ".."):
         seg = seg.replace(".", "%2E")
     return f"{BASE_URL}/v1/connector/consoles/{seg}/network/integration"

@@ -8,7 +8,7 @@ from http.server import BaseHTTPRequestHandler
 
 import pytest
 
-from review.conftest import LocalTls, review_bug, send
+from review.conftest import LocalTls, send
 from unifi_carto.build import build_inventory
 from unifi_carto.collect import Target
 from unifi_carto.config import TlsConfig

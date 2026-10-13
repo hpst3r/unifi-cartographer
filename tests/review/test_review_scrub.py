@@ -6,7 +6,6 @@ import ipaddress
 import json
 from typing import Any
 
-from review.conftest import review_bug
 from unifi_carto.scrub import scrub
 
 SALT = "review-salt"
