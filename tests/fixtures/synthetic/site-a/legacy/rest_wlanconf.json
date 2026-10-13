@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "_id": "67e000000000000000000001",
+      "enabled": true,
+      "name": "corp",
+      "networkconf_id": "64f000000000000000000010",
+      "security": "wpapsk",
+      "wlan_bands": [
+        "2g",
+        "5g"
+      ]
+    },
+    {
+      "_id": "67e000000000000000000002",
+      "enabled": true,
+      "name": "guest",
+      "networkconf_id": "64f000000000000000000030",
+      "security": "open",
+      "wlan_bands": [
+        "5g"
+      ]
+    }
+  ],
+  "meta": {
+    "rc": "ok"
+  }
+}

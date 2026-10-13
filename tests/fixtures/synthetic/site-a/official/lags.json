@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1a900000-0000-4000-8000-000000000001",
+    "members": [
+      {
+        "deviceId": "de000000-0000-4000-8000-000000000003",
+        "portIdxs": [
+          49,
+          50
+        ]
+      }
+    ],
+    "metadata": {
+      "origin": "USER_DEFINED"
+    },
+    "type": "LOCAL"
+  },
+  {
+    "id": "1a900000-0000-4000-8000-000000000002",
+    "members": [
+      {
+        "deviceId": "de000000-0000-4000-8000-000000000002",
+        "portIdxs": [
+          1,
+          2
+        ]
+      }
+    ],
+    "metadata": {
+      "origin": "USER_DEFINED"
+    },
+    "type": "LOCAL"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "access": "local",
+  "firmware": "4.1.13",
+  "id": "console-hq",
+  "local_url": "https://10.0.0.1",
+  "model": "UDM-Pro",
+  "name": "hq"
+}

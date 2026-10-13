@@ -1,0 +1,14 @@
+{
+  "data": [
+    {
+      "_id": "65a000000000000000000001",
+      "name": "AP Trunk",
+      "native_networkconf_id": "64f000000000000000000001",
+      "poe_mode": "auto",
+      "tagged_vlan_mgmt": "auto"
+    }
+  ],
+  "meta": {
+    "rc": "ok"
+  }
+}
