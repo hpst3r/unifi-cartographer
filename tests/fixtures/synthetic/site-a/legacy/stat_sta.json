@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "hostname": "phone-101",
+      "ip": "10.0.20.101",
+      "is_wired": true,
+      "mac": "02:00:00:00:a0:01",
+      "sw_mac": "02:00:00:00:00:04",
+      "sw_port": 14,
+      "vlan": 20
+    },
+    {
+      "ap_mac": "02:00:00:00:00:05",
+      "hostname": "laptop-7",
+      "ip": "10.0.10.57",
+      "is_wired": false,
+      "mac": "02:00:00:00:a0:02",
+      "vlan": 10
+    },
+    {
+      "hostname": "printer",
+      "ip": "10.0.10.80",
+      "is_wired": true,
+      "mac": "02:00:00:00:a0:03",
+      "sw_mac": "02:00:00:00:00:03",
+      "sw_port": 8,
+      "vlan": 10
+    }
+  ],
+  "meta": {
+    "rc": "ok"
+  }
+}
