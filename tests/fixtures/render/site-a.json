@@ -1,0 +1,3016 @@
+{
+  "schema_version": "1",
+  "generated_at": "2026-10-01T12:00:00Z",
+  "collector_version": "0.1.0.dev0",
+  "consoles": [
+    {
+      "id": "console-hq",
+      "name": "hq",
+      "access": "local",
+      "local_url": "https://10.0.1.1",
+      "model": "UDM-Pro",
+      "firmware": null,
+      "network_version": "9.4.19",
+      "legacy": "api_key"
+    }
+  ],
+  "sites": [
+    {
+      "id": "6a1d0000-0000-4000-8000-00000000a001",
+      "console_id": "console-hq",
+      "name": "HQ",
+      "internal_reference": "default"
+    }
+  ],
+  "devices": [
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000001",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "mac": "02:00:00:00:00:01",
+      "name": "gw-hq",
+      "model": "UDM-Pro",
+      "role": "gateway",
+      "ip": "10.0.1.1",
+      "firmware": "4.1.13",
+      "state": "ONLINE",
+      "uplink_device_id": null,
+      "ports": [
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 1,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 2,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 3,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 4,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 5,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 6,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 7,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 8,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 9,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 10,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 11,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        }
+      ],
+      "radios": []
+    },
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000002",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "mac": "02:00:00:00:00:02",
+      "name": "usw-agg-a",
+      "model": "USW-Aggregation",
+      "role": "switch",
+      "ip": "10.0.1.2",
+      "firmware": "7.1.68",
+      "state": "ONLINE",
+      "uplink_device_id": "6a1d0000-0000-4000-8000-000000000001",
+      "ports": [
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 1,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": "lag-acc1-agg",
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 2,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": "lag-acc1-agg",
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 3,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "No Guest",
+          "native_vlan": 1,
+          "tagged_vlans": [
+            10,
+            20
+          ]
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 4,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 5,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 6,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 7,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 8,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        }
+      ],
+      "radios": []
+    },
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000003",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "mac": "02:00:00:00:00:03",
+      "name": "usw-acc-1",
+      "model": "USW-Pro-48-PoE",
+      "role": "switch",
+      "ip": "10.0.1.3",
+      "firmware": "7.1.68",
+      "state": "ONLINE",
+      "uplink_device_id": "6a1d0000-0000-4000-8000-000000000002",
+      "ports": [
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 1,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 2,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 3,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 4,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 5,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "AP Trunk",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 6,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 7,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 8,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 9,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 10,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 11,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 12,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 13,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 14,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 15,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 16,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 17,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 18,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 19,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 20,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 21,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 22,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 23,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 24,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 25,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 26,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 27,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 28,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 29,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 30,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 31,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 32,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 33,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 34,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 35,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 36,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 37,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 38,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 39,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 40,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 41,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 42,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 43,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 44,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 45,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 46,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 47,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 48,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 49,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": "lag-acc1-agg",
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 50,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": "lag-acc1-agg",
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 51,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 52,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        }
+      ],
+      "radios": []
+    },
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000004",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "mac": "02:00:00:00:00:04",
+      "name": "usw-acc-2",
+      "model": "USW-Pro-48-PoE",
+      "role": "switch",
+      "ip": "10.0.1.4",
+      "firmware": "7.1.68",
+      "state": "ONLINE",
+      "uplink_device_id": "6a1d0000-0000-4000-8000-000000000002",
+      "ports": [
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 1,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 2,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 3,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 4,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 5,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 6,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 7,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 8,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 9,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 10,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "Staff only",
+          "native_vlan": 10,
+          "tagged_vlans": []
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 11,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 12,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 13,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 14,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 15,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 16,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 17,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 18,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 19,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 20,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 21,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 22,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 23,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 24,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 25,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 26,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 27,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 28,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 29,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 30,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 31,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 32,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 33,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 34,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 35,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 36,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 37,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 38,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 39,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 40,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 41,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 42,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 43,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 44,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 45,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 46,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 47,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 48,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 49,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 50,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 51,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        },
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 52,
+          "name": null,
+          "connector": "SFPPLUS",
+          "media": "SFP+",
+          "max_speed_mbps": 10000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        }
+      ],
+      "radios": []
+    },
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000005",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "mac": "02:00:00:00:00:05",
+      "name": "ap-lobby",
+      "model": "U6-Pro",
+      "role": "access_point",
+      "ip": "10.0.1.21",
+      "firmware": "7.1.68",
+      "state": "ONLINE",
+      "uplink_device_id": "6a1d0000-0000-4000-8000-000000000003",
+      "ports": [
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 1,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        }
+      ],
+      "radios": []
+    },
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000006",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "mac": "02:00:00:00:00:06",
+      "name": "ap-warehouse",
+      "model": "U6-Mesh",
+      "role": "access_point",
+      "ip": "10.0.1.22",
+      "firmware": "7.1.68",
+      "state": "ONLINE",
+      "uplink_device_id": "6a1d0000-0000-4000-8000-000000000005",
+      "ports": [
+        {
+          "sources": [
+            "legacy",
+            "official"
+          ],
+          "idx": 1,
+          "name": null,
+          "connector": "RJ45",
+          "media": "GE",
+          "max_speed_mbps": 1000,
+          "speed_mbps": null,
+          "state": "down",
+          "enabled": null,
+          "poe": null,
+          "sfp": null,
+          "is_uplink": null,
+          "lag_id": null,
+          "profile": "All",
+          "native_vlan": 1,
+          "tagged_vlans": "all"
+        }
+      ],
+      "radios": []
+    }
+  ],
+  "links": [
+    {
+      "id": "6a1d0000-0000-4000-8000-000000000002:8-6a1d0000-0000-4000-8000-000000000001:11",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "a": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000002",
+        "port_idx": 8,
+        "external": null
+      },
+      "b": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000001",
+        "port_idx": 11,
+        "external": null
+      },
+      "kind": "wired",
+      "speed_mbps": 10000,
+      "lag_id": null,
+      "source": "legacy"
+    },
+    {
+      "id": "6a1d0000-0000-4000-8000-000000000003:49-6a1d0000-0000-4000-8000-000000000002:1",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "a": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000003",
+        "port_idx": 49,
+        "external": null
+      },
+      "b": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000002",
+        "port_idx": 1,
+        "external": null
+      },
+      "kind": "wired",
+      "speed_mbps": 10000,
+      "lag_id": "lag-acc1-agg",
+      "source": "legacy"
+    },
+    {
+      "id": "6a1d0000-0000-4000-8000-000000000003:50-6a1d0000-0000-4000-8000-000000000002:2",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "a": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000003",
+        "port_idx": 50,
+        "external": null
+      },
+      "b": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000002",
+        "port_idx": 2,
+        "external": null
+      },
+      "kind": "wired",
+      "speed_mbps": 10000,
+      "lag_id": "lag-acc1-agg",
+      "source": "legacy"
+    },
+    {
+      "id": "6a1d0000-0000-4000-8000-000000000004:10-ext:02:00:00:00:09:01:?",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "a": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000004",
+        "port_idx": 10,
+        "external": null
+      },
+      "b": {
+        "device_id": null,
+        "port_idx": null,
+        "external": {
+          "chassis_id": "02:00:00:00:09:01",
+          "port_id": "eno1",
+          "system_name": "nas-01"
+        }
+      },
+      "kind": "wired",
+      "speed_mbps": 1000,
+      "lag_id": null,
+      "source": "lldp"
+    },
+    {
+      "id": "6a1d0000-0000-4000-8000-000000000004:49-6a1d0000-0000-4000-8000-000000000002:3",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "a": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000004",
+        "port_idx": 49,
+        "external": null
+      },
+      "b": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000002",
+        "port_idx": 3,
+        "external": null
+      },
+      "kind": "wired",
+      "speed_mbps": 10000,
+      "lag_id": null,
+      "source": "legacy"
+    },
+    {
+      "id": "6a1d0000-0000-4000-8000-000000000005:1-6a1d0000-0000-4000-8000-000000000003:5",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "a": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000005",
+        "port_idx": 1,
+        "external": null
+      },
+      "b": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000003",
+        "port_idx": 5,
+        "external": null
+      },
+      "kind": "wired",
+      "speed_mbps": 2500,
+      "lag_id": null,
+      "source": "legacy"
+    },
+    {
+      "id": "6a1d0000-0000-4000-8000-000000000006:?-6a1d0000-0000-4000-8000-000000000005:?",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "a": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000006",
+        "port_idx": null,
+        "external": null
+      },
+      "b": {
+        "device_id": "6a1d0000-0000-4000-8000-000000000005",
+        "port_idx": null,
+        "external": null
+      },
+      "kind": "mesh",
+      "speed_mbps": 866,
+      "lag_id": null,
+      "source": "legacy"
+    }
+  ],
+  "lags": [
+    {
+      "id": "lag-acc1-agg",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "kind": "local",
+      "members": [
+        {
+          "device_id": "6a1d0000-0000-4000-8000-000000000003",
+          "port_idxs": [
+            49,
+            50
+          ]
+        },
+        {
+          "device_id": "6a1d0000-0000-4000-8000-000000000002",
+          "port_idxs": [
+            1,
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "networks": [
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000901",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "name": "Default",
+      "vlan_id": 1,
+      "purpose": "corporate",
+      "subnet": "10.0.1.1/24",
+      "dhcp_enabled": true,
+      "enabled": true
+    },
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000902",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "name": "Staff",
+      "vlan_id": 10,
+      "purpose": "corporate",
+      "subnet": "10.0.10.1/24",
+      "dhcp_enabled": true,
+      "enabled": true
+    },
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000903",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "name": "Voice",
+      "vlan_id": 20,
+      "purpose": "corporate",
+      "subnet": "10.0.20.1/24",
+      "dhcp_enabled": true,
+      "enabled": true
+    },
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000904",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "name": "Guest",
+      "vlan_id": 30,
+      "purpose": "guest",
+      "subnet": "10.0.30.1/24",
+      "dhcp_enabled": true,
+      "enabled": true
+    },
+    {
+      "sources": [
+        "legacy"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000905",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "name": "Internet 1",
+      "vlan_id": null,
+      "purpose": "wan",
+      "subnet": null,
+      "dhcp_enabled": null,
+      "enabled": null
+    }
+  ],
+  "wlans": [
+    {
+      "sources": [
+        "legacy",
+        "official"
+      ],
+      "id": "6a1d0000-0000-4000-8000-000000000951",
+      "site_id": "6a1d0000-0000-4000-8000-00000000a001",
+      "name": "Example-Staff",
+      "enabled": true,
+      "network_id": "6a1d0000-0000-4000-8000-000000000902",
+      "security": "wpapsk",
+      "bands": [
+        "2g",
+        "5g"
+      ]
+    }
+  ],
+  "wans": [],
+  "clients": null,
+  "warnings": []
+}
