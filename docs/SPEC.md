@@ -127,3 +127,25 @@ Decisions on worker-reported contract issues:
 9. **Render page names:** canonical `inventory`; `rack-inventory` and `cable-schedule` are accepted aliases. No U-height map in v0.1.
 10. **Proxies:** the HTTP client ignores proxy environment variables (`trust_env=False`) so credentials never go to an unexpected proxy. Revisit if a user needs an HTTPS proxy for api.ui.com.
 11. **Discovered Site Manager hosts** that 404 on the Network integration path (e.g. Protect-only NVRs) produce `console_not_network` and do not make the run partial.
+
+### Amendment 2 (review 1 decisions, 2026-10-13)
+
+Findings in `docs/reviews/2026-10-review-1.md`; decisions the fix wave implements exactly:
+
+1. **Third-party loggers** (`httpx`, `httpcore`, `hpack`, `urllib3`) are pinned to WARNING in `cli.main` regardless of `--debug`; `--debug` raises only `unifi_carto.*`. (SEC-01)
+2. **Per-console isolation:** any `CartoError` (incl. `TlsPinMismatch`, config errors resolving one console's secrets excluded) while collecting one console, official or legacy, becomes a warning (`console_failed`, `legacy_error`) and the run continues; official data already collected for that console is kept. Exit code 1. (COL-01, COL-02)
+3. **Site Manager failure** (key refused, api.ui.com unreachable) becomes warning `site_manager_failed`; configured local consoles are still collected; exit 1. (w4 proposal)
+4. **Console identity:** a configured console binds to a Site Manager host by `host_id` first; by name only if exactly one host has that name, else warning `console_ambiguous` and no binding (and every same-named host is still collected via the connector under its own id). Duplicate `host_id` across `[[console]]` entries is a ConfigError. (COL-03)
+5. **No secrets in reprs:** `Target.official_key` and any dataclass/client field holding a secret use `repr=False`. (SEC-03)
+6. **`Wan.raw`** keeps only an allow-list of non-secret keys (id, name, type/interface/role/priority/enabled/state-like fields, IP config without credentials); everything else is dropped, and keys matching `scrub.drop_key` are dropped recursively as a backstop. (SEC-02)
+7. **Pagination hardening:** `get_paginated` caps at 1000 pages, stops on a page identical to the previous page (hash), and drops non-object items with one DEBUG log line. (ROB-01, COL-04)
+8. **`ca_cert`** that is missing, a directory or unreadable -> ConfigError at load/plan time. (TLS-01)
+9. **Write-call scanner** becomes AST-based: fails on any `Call` whose function attribute is post/put/patch/delete/request/stream/send outside `http.py`, any string literal equal (case-insensitive) to POST/PUT/PATCH/DELETE outside `http.py`, and any import of `urllib.request`, `requests`, `http.client`, `aiohttp`, `socket` (except in `http.py`). (RO-01)
+10. **Login is never retried** on 429/5xx/transport errors (one attempt, then AuthRefused/ApiError). The capability path check compares the full origin. (report-only observations)
+11. **Server-supplied ids** interpolated into URL paths are percent-encoded (`quote(id, safe="")`). (report-only)
+12. **Legacy auth error strings** live in one shared constant in `errors.py`: `api.err.LoginRequired`, `api.err.NoPermission`, `api.err.Invalid`, `api.err.Unauthorized` -> AuthRefused.
+13. **Scrubber** (SCR-01..05): MACs in colon/dash/dot/bare-12-hex forms anywhere in strings, incl. `mac:` prefixes; identity keys by pattern (keys ending in `name`, `username`, `hostname`; `alias`, `desc*`, `description`, `domain*`, `label`, `ssid`, `essid`, `email`, `note*`, `comment*`) unless the value is in an enum allow-list (`model`, `type`, `version`, `media`, `connector`, `state`, `purpose`, ...); drop location keys (`geo*`, `lat*`, `lon*`/`lng`, `city`, `country*`, `address`, `isp*`, `timezone`); IPv6 and IPv4 inside longer strings (URLs, CIDRs, lists); public IPv4 mapping injective within a capture (sequential table keyed by first appearance order is acceptable since captures are single-run). (SCR-01..05)
+14. **Capture console identity:** `console.json` gets positional id/name, `local_url` and `host_id` removed, model/firmware kept. (SCR-06)
+15. **Builder dedup:** one cable seen as an uplink with unknown remote port and as upstream LLDP with unparseable port id is one Link; merge port numbers from both observations. (BLD-01)
+16. **Renderer:** strip C0 control characters (except tab/newline handled as spaces) from every rendered string. (RND-01)
+17. **Legacy-only `collect -o` into a missing directory:** create parent directories? No: fail early with ConfigError before collecting.
