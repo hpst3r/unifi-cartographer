@@ -9,7 +9,7 @@ import pytest
 from conftest import GENERATED_AT, legacy_key, load_legacy, load_official
 from unifi_carto.build import build_inventory
 from unifi_carto.model import CollectionWarning, Device, Inventory, Link, Source
-from unifi_carto.raw import LegacySnapshot, OfficialSnapshot
+from unifi_carto.raw import ConsoleRef, LegacySnapshot, OfficialSnapshot
 
 
 def uuid(n: int) -> str:
@@ -320,3 +320,75 @@ def test_odd_legacy_values_become_parse_errors(official_a: OfficialSnapshot, leg
     assert any("02:00:00:00:00:04" in w.message for w in inv.warnings)
     link = link_from(inv, ACC2, 49)
     assert link.b.device_id == AGG and link.b.port_idx == 3  # remote port recovered from LLDP
+
+
+def _official(**kwargs: Any) -> OfficialSnapshot:
+    console = ConsoleRef(id="c1", name="hq", access="local")
+    site = {"id": "s1", "name": "Main", "internalReference": "default"}
+    return OfficialSnapshot(console=console, site=site, app_version="10.6.106", **kwargs)
+
+
+def test_wan_raw_keeps_only_allow_listed_non_secret_keys() -> None:
+    wan = {
+        "id": "wan-1",
+        "name": "Internet 1",
+        "type": "PPPOE",
+        "priority": 1,
+        "ipv4Configuration": {
+            "mode": "PPPOE",
+            "dnsServers": ["192.0.2.53"],
+            "pppoeUsername": "carto@isp.example",
+            "credentials": {"password": "pw-1"},
+            "nested": [{"sharedSecret": "s-1", "vlanId": 7, "x_hidden": "h-1"}],
+        },
+        "pppoe": {"username": "carto@isp.example", "password": "pw-2"},
+        "ispName": "Example ISP",
+        "unmodeledField": "u-1",
+    }
+    inv = build(_official(wans=[wan]))
+    assert inv.wans[0].raw == {
+        "id": "wan-1",
+        "name": "Internet 1",
+        "type": "PPPOE",
+        "priority": 1,
+        "ipv4Configuration": {"mode": "PPPOE", "dnsServers": ["192.0.2.53"], "nested": [{"vlanId": 7}]},
+    }
+
+
+def _bld01(gw_lldp_ports: list[int]) -> Inventory:
+    """Switch uplink knows only its own port; the gateway's LLDP entries have unparseable port ids."""
+    gw_mac, sw_mac = "02:00:00:00:00:01", "02:00:00:00:00:02"
+    official = _official(
+        devices=[
+            {"id": GW, "macAddress": gw_mac, "name": "ugw-main", "features": ["gateway"]},
+            {
+                "id": AGG,
+                "macAddress": sw_mac,
+                "name": "usw-agg-a",
+                "features": ["switching"],
+                "uplink": {"deviceId": GW},
+            },
+        ]
+    )
+    lldp = [{"local_port_idx": p, "chassis_id": sw_mac, "port_id": "eth?", "is_wired": True} for p in gw_lldp_ports]
+    legacy = LegacySnapshot(
+        site_name="default",
+        auth="api_key",
+        devices=[
+            {"mac": sw_mac, "type": "usw", "uplink": {"uplink_mac": gw_mac, "port_idx": 1, "type": "wire"}},
+            {"mac": gw_mac, "type": "udm", "lldp_table": lldp},
+        ],
+    )
+    return build(official, legacy)
+
+
+def test_uplink_and_portless_lldp_of_one_cable_merge_into_one_link() -> None:
+    inv = _bld01([4])
+    assert [(lk.a.device_id, lk.a.port_idx, lk.b.device_id, lk.b.port_idx) for lk in inv.links] == [(AGG, 1, GW, 4)]
+
+
+def test_second_portless_lldp_cable_is_not_merged_into_a_filled_link() -> None:
+    inv = _bld01([4, 5])
+    ends = [(lk.a.device_id, lk.a.port_idx, lk.b.device_id, lk.b.port_idx) for lk in inv.links]
+    assert len(ends) == 2, ends
+    assert (AGG, 1, GW, 4) in ends

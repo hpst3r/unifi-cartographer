@@ -42,7 +42,6 @@ def test_sec01_debug_log_has_no_session_cookie_or_csrf(local_tls: LocalTls, capl
 
 
 def test_sec02_wan_raw_does_not_carry_credentials() -> None:
-    review_bug("SEC-02: Wan.raw copies the whole official WAN object into the inventory, secrets included")
     snap = OfficialSnapshot(
         console=ConsoleRef(id="c1", name="hq", access="local"),
         site={"id": "s1", "name": "Main", "internalReference": "default"},

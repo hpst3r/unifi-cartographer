@@ -68,6 +68,7 @@ from unifi_carto.model import (
     normalize_mac,
 )
 from unifi_carto.raw import JSON, LegacySnapshot, OfficialSnapshot
+from unifi_carto.scrub import drop_key
 
 _PARSE_ERRORS = (ValueError, TypeError, KeyError, AttributeError)
 _LINK_RANK = {Source.LEGACY: 0, Source.LLDP: 1, Source.OFFICIAL: 2, Source.INFERRED: 3}
@@ -86,6 +87,42 @@ _LEGACY_ROLES: dict[str, Literal["gateway", "switch", "access_point"]] = {
 }
 _LEGACY_BANDS = {"2g": "2.4", "5g": "5", "6g": "6"}
 _LLDP_PORT = re.compile(r"(?:port\s*)?(\d+)", re.IGNORECASE)
+# Wan.raw keeps only these non-secret official WAN keys (SPEC A2.6); anything else may carry credentials.
+_WAN_RAW_KEYS = frozenset(
+    {
+        "id",
+        "name",
+        "type",
+        "wanType",
+        "interface",
+        "interfaceName",
+        "networkGroup",
+        "role",
+        "priority",
+        "failoverPriority",
+        "loadBalanceWeight",
+        "weight",
+        "enabled",
+        "state",
+        "status",
+        "mode",
+        "vlanId",
+        "vlan",
+        "mtu",
+        "ipAddress",
+        "subnet",
+        "gateway",
+        "dns",
+        "dnsServers",
+        "ipConfiguration",
+        "ipv4",
+        "ipv4Configuration",
+        "ipv6",
+        "ipv6Configuration",
+    }
+)
+# Nested keys dropped from allowed WAN values on top of ``scrub.drop_key`` (PPPoE/RADIUS logins).
+_WAN_CREDENTIAL_WORDS = ("user", "login", "auth", "credential", "radius")
 
 
 def build_inventory(
@@ -607,14 +644,18 @@ class _SiteBuilder:
 
     @staticmethod
     def _portless_link(links: list[Link], dev_id: str, remote: str, remote_port: int | None) -> Link | None:
-        """A link between the two devices that does not yet know the local port (e.g. official-only)."""
+        """A link between the two devices that does not yet know the local port (e.g. official-only).
+
+        With ``remote_port`` unknown (unparseable LLDP port id) any remote port matches: the cable
+        seen from the other end with only its own port known is the same cable (BLD-01).
+        """
         for link in links:
             ends = {link.a.device_id: link.a, link.b.device_id: link.b}
             if (
                 dev_id in ends
                 and remote in ends
                 and ends[dev_id].port_idx is None
-                and ends[remote].port_idx in (None, remote_port)
+                and (remote_port is None or ends[remote].port_idx in (None, remote_port))
             ):
                 return link
         return None
@@ -757,7 +798,8 @@ class _SiteBuilder:
             if wan_id is None:
                 self._warn("parse_error", "official WAN without id skipped")
                 continue
-            self.out.wans.append(Wan(id=wan_id, site_id=self.site_id, name=_str(raw.get("name")), raw=dict(raw)))
+            kept = {k: _wan_value(v) for k, v in raw.items() if k in _WAN_RAW_KEYS and not _wan_secret(k)}
+            self.out.wans.append(Wan(id=wan_id, site_id=self.site_id, name=_str(raw.get("name")), raw=kept))
 
     # ---- clients -------------------------------------------------------------------------------
 
@@ -818,6 +860,19 @@ def _link_id(link: Link) -> str:
         return f"{ident}:{e.port_idx if e.port_idx is not None else '?'}"
 
     return f"{end(link.a)}-{end(link.b)}"
+
+
+def _wan_secret(key: str) -> bool:
+    return drop_key(key) or any(w in key.lower() for w in _WAN_CREDENTIAL_WORDS)
+
+
+def _wan_value(value: Any) -> Any:
+    """Copy an allowed WAN value, dropping secret-looking keys at every depth."""
+    if isinstance(value, dict):
+        return {k: _wan_value(v) for k, v in value.items() if not (isinstance(k, str) and _wan_secret(k))}
+    if isinstance(value, list):
+        return [_wan_value(v) for v in value]
+    return value
 
 
 def _fill_end(link: Link, dev_id: str, port_idx: int | None) -> None:

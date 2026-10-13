@@ -268,3 +268,16 @@ def test_drawio_helper_check_and_draft(name: str, tmp_path: Path) -> None:
     pngs = re.findall(r"DRAFT: (\S+\.png)", draft.stdout)
     assert len(pngs) == len(diagrams(target.read_text()))
     assert all(Path(p if os.path.isabs(p) else out / p).stat().st_size > 0 for p in pngs)
+
+
+def test_control_characters_are_stripped_from_every_rendered_string() -> None:
+    inv = load("site-a")
+    inv.sites[0].name = "Main\x1b[0m\x00"
+    for d in inv.devices:
+        d.name = f"{d.name}\x07\tbay\n2\r\x0b\ud800"
+    xml = render_drawio(inv)
+    root = ET.fromstring(xml)
+    texts = [v for el in root.iter() for v in el.attrib.values()]
+    assert not [t for t in texts if re.search("[\x00-\x1f\ud800-\udfff]", t)]
+    assert any(d.get("name") == "Main[0m - Logical" for d in diagrams(xml))
+    assert any("bay 2 " in t for t in texts)  # tab/newline/CR became spaces
